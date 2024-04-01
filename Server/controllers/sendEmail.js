@@ -1,10 +1,10 @@
-const sendEmail = require('../functions/sendEmail.js');
+const sendEmailFn = require('../functions/sendEmailFn.js');
 
-const sendOtp = async (req, res) => {
+const sendEmail = async (req, res) => {
     const { email, subject, msg } = req.body;
 
     try {
-        await sendEmail({ email, subject, msg })
+        await sendEmailFn({ email, subject, msg })
             .then(() => {
                 res.status(200).json({
                     message: "Message sent successfully",
@@ -23,4 +23,4 @@ const sendOtp = async (req, res) => {
 
 }
 
-module.exports = sendOtp;
+module.exports = sendEmail;
