@@ -7,6 +7,18 @@
   padding: 0;
   overflow: hidden;
   box-sizing: border-box;
+  color: black;
+  font-family: "Nunito", sans-serif;
+}
+
+input{
+  caret-color: black;
+}
+input:focus{
+  outline: none;
+}
+input::placeholder{
+  color: rgb(184, 187, 190);
 }
 
 body{
