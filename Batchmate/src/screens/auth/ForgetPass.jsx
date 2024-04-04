@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom"
 import { RotatingLines } from 'react-loader-spinner';
 
-const Login = () => {
+const ForgetPass = () => {
     const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false)
 
@@ -11,6 +11,7 @@ const Login = () => {
     return (
         <form onSubmit={(e) => e.preventDefault()} className='w-screen h-screen flex flex-col justify-start items-center'>
             <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >Batchmate</h1>
+            <h1 className='text-4xl text-blue-600 text-center'>Account Recovery</h1>
             {/* input email */}
             <input
                 type="email"
@@ -48,4 +49,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default ForgetPass;
