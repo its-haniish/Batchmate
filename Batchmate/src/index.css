@@ -8,11 +8,31 @@
   overflow: hidden;
   box-sizing: border-box;
   color: black;
-  font-family: "Nunito", sans-serif;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: "Nunito", sans-serif; */
+  font-family:  Helvetica, Arial, sans-serif;
 }
 *::-webkit-scrollbar{
   display: none;
+}
+
+.font-Nunito{
+  font-family: "Nunito", sans-serif;
+}
+
+.fixed-center{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.shadow-text-white{
+  text-shadow: 0px 0px 5px white;
+}
+.text-bg-gradient{
+  background: linear-gradient(to right,purple, blue);
+  color: transparent;
+  -webkit-background-clip: text;
 }
 
 input{

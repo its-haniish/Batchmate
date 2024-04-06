@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { FcSearch } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
+import { NavLink } from "react-router-dom";
+import Sidebar from '../sidebar/Sidebar';
 import { toast } from 'react-toastify';
 
 const Navbar = () => {
-    const notify = () => toast.success("Wow so easy!");
+    const [sidebarVisible, setSidebarVisible] = useState(false);
+
+    const openSidebar = () => {
+        setSidebarVisible(true);
+    };
+    const closeSidebar = () => {
+        setSidebarVisible(false);
+    }
+
+    useEffect(() => {
+        setSidebarVisible(false);
+    }, [])
     return (
         <nav className='w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow'>
 
             {/* menu bar */}
-            <button className='text-white ' onClick={notify}><HiMenu size="25px" /></button>
+            <button className='text-white' onClick={openSidebar}><HiMenu size="25px" /></button>
 
             {/* search bar */}
-            <div className='bg-gray-100 flex justify-center items-center w-[60vw] relative rounded-xl px-2 my-1'  >
+            <div className='bg-gray-100 flex justify-center items-center w-[60vw] relative rounded-xl px-2 my-1'>
                 <input type="search" className='py-1 px-1 bg-transparent' placeholder='Search' />
                 <button className='border-l border-l-slate-300 px-1'><FcSearch color='white' size="25px" /></button>
             </div>
@@ -25,7 +38,8 @@ const Navbar = () => {
                     alt="user-image" />
             </button>
 
-
+            {/* Sidebar */}
+            {sidebarVisible && <Sidebar closeSidebar={closeSidebar} />}
         </nav>
     )
 }
