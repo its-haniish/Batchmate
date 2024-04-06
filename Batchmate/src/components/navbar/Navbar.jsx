@@ -12,8 +12,8 @@ const Navbar = () => {
             <button className='text-white ' onClick={notify}><HiMenu size="25px" /></button>
 
             {/* search bar */}
-            <div className='flex justify-center items-center w-[60vw] relative shadow rounded pr-1'  >
-                <input type="text" className='py-1 px-1 ' placeholder='Search' />
+            <div className='bg-gray-100 flex justify-center items-center w-[60vw] relative rounded-xl px-2 my-1'  >
+                <input type="search" className='py-1 px-1 bg-transparent' placeholder='Search' />
                 <button className='border-l border-l-slate-300 px-1'><FcSearch color='white' size="25px" /></button>
             </div>
 
