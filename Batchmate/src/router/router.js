@@ -5,6 +5,7 @@ import Signup from '../screens/auth/Signup.jsx'
 import ForgetPass from '../screens/auth/ForgetPass.jsx';
 import Home from '../screens/home/Home.jsx';
 import AddFeedback from '../screens/add-feedback/AddFeedback.jsx';
+import AllTeachers from '../screens/teachers/AllTeachers.jsx'
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: "/write-feedback",
         element: <AddFeedback />
+    },
+    {
+        path: "/teachers",
+        element: <AllTeachers />
     }
 
 ]);
