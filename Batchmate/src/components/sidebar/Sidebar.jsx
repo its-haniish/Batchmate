@@ -38,7 +38,7 @@ const Sidebar = ({ closeSidebar }) => {
 
 
                 <li className='text-center'>
-                    <NavLink to="/" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
+                    <NavLink to="/write-feedback" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
                         <FaPen size={18} className='mr-1' />Write
                     </NavLink>
                 </li>
