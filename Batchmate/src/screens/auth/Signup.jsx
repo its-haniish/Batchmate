@@ -1,15 +1,92 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { RotatingLines } from "react-loader-spinner"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux'
 
 const Signup = () => {
     const [showPass, setShowPass] = useState(false);
+    const [formData, setFormData] = useState({});
+    const [otp, setOtp] = useState(Math.floor(Math.random() * 10000));
+    const [isOtpSent, setIsOtpSent] = useState(false)
     const [showCurrPass, setShowCurrPass] = useState(false);
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
+
+    function setCookie(cookieName, cookieValue) {
+        // Set expiry date to 30 days from now
+        var expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 30);
+
+        // Convert expiry date to UTC string
+        var expires = expiryDate.toUTCString();
+
+        // Check if the current environment is localhost:3000
+        var isLocalhost = window.location.hostname === 'localhost' && window.location.port === '3000';
+
+        // Set cookie only for localhost:3000
+        var cookieOptions = isLocalhost ? 'SameSite=Strict; Secure;' : '';
+
+        document.cookie = cookieName + '=' + cookieValue + '; expires=' + expires + '; ' + cookieOptions;
+    }
+
+    const handleSendOtp = async e => {
+        e.preventDefault();
+        console.log(otp);
+    }
+
+
+    const handleSignup = async e => {
+        e.preventDefault();
+        setLoading(true)
+        const { password, cpassword } = formData;
+        if (password !== cpassword) {
+            setLoading(false)
+            return toast.error("Passwords does not match.")
+        }
+
+        if (password.length <= 5) {
+            setLoading(false)
+            return toast.error("Weak password.")
+        }
+
+        try {
+            let res = await fetch(`${process.env.REACT_APP_BASE_URL}/signup`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+
+            let result = await res.json()
+            setCookie("batchmate", result.token);
+            if (result.msg === "Account created successfully :)") {
+                toast.success(result.msg);
+            } else {
+                toast.error(result.msg);
+            }
+            setLoading(false)
+            dispatch({
+                type: "loginUser",
+                action: {
+                    token: result.token
+                }
+            })
+            return navigate("/")
+
+        } catch (error) {
+            setLoading(false)
+            return toast.error("Error creating account.")
+        }
+    }
 
     return (
-        <form onSubmit={(e) => e.preventDefault()} className='w-screen h-screen flex flex-col justify-start items-center'>
+        <form className='w-screen h-screen flex flex-col justify-start items-center'>
             <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >Batchmate</h1>
 
             {/* input name */}
@@ -17,6 +94,9 @@ const Signup = () => {
                 type="text"
                 placeholder='Full Name'
                 className='mt-12 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                name='name'
+                onChange={handleChange}
+                required
             />
 
             {/* input email */}
@@ -24,20 +104,17 @@ const Signup = () => {
                 type="email"
                 placeholder='xyz@email.com'
                 className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                name='email'
+                onChange={handleChange}
+                required
             />
 
-            {/* college name */}
-            <input
-                type="text"
-                placeholder='College'
-                className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
-            />
-
-            {/* brach name */}
             <input
                 type="text"
                 placeholder='Branch'
                 className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                value="Computer Engineering"
+                readOnly
             />
 
 
@@ -49,6 +126,9 @@ const Signup = () => {
                         type={showPass ? "text" : "password"}
                         placeholder='**password**'
                         className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                        name='password'
+                        onChange={handleChange}
+                        required
                     />
                     <button className='absolute top-0 right-4 bottom-0' onClick={() => { setShowPass(!showPass) }}>
                         {
@@ -67,6 +147,9 @@ const Signup = () => {
                         type={showCurrPass ? "text" : "password"}
                         placeholder='**confirm password**'
                         className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                        name='cpassword'
+                        onChange={handleChange}
+                        required
                     />
                     <button className='absolute top-0 right-4 bottom-0' onClick={() => { setShowCurrPass(!showCurrPass) }}>
                         {
@@ -79,11 +162,38 @@ const Signup = () => {
 
 
             <div className='mt-1 flex w-[70vw] justify-between items-start text-blue-600 active:text-blue-950'>
-                <NavLink to="/login" className="text-[0.8rem]">Already have an account?</NavLink>
+                <NavLink to="/login" className="text-[0.9rem]">Already have an account?</NavLink>
             </div>
 
-            <button className='mt-6 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' onClick={() => setLoading(!loading)}>
-                {!loading ? "SIGN UP" : <RotatingLines height="30" width="30" strokeColor='white' />}
+
+            {/* code input wrapper */}
+            {
+                isOtpSent &&
+                <div className='mt-6 flex-col justify-center items-center'>
+
+                    <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                        <input
+                            type='number'
+                            placeholder='Enter verification code..'
+                            className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                            name='otp'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className='mt-1 flex w-[70vw] justify-end items-start text-blue-600 active:text-blue-950'>
+                        <button className="text-[0.9rem] text-right">Resend</button>
+                    </div>
+
+                </div>
+
+            }
+
+            <button className='mt-6 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-30 h-10 flex justify-center items-center' onClick={isOtpSent ? handleSignup : handleSendOtp}>
+                {!loading ?
+                    isOtpSent ? "VERIFY" : "SIGN UP"
+                    : <RotatingLines height="30" width="30" strokeColor='white' />}
             </button>
 
         </form>

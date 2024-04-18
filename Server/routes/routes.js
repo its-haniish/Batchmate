@@ -14,9 +14,9 @@ routes
     .post('/signup', signup)
     .post('/login', login)
     .post('/sendEmail', sendEmail)
-    .post('/addTeacher', addTeacher)
-    .get('/searchTeachers', searchTeachers)
-    .post('/addFeedback', addFeedback)
+    .post('/add-teacher', addTeacher)
+    .post('/get-teachers', searchTeachers)
+    .post('/add-feedback', addFeedback)
     .post('/deleteFeedback', deleteFeedback)
 
 module.exports = routes;

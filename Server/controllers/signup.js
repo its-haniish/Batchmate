@@ -11,6 +11,7 @@ const signup = async (req, res) => {
         }
 
         let studentCreated = await Students.create({ name, email, password });
+        console.log(studentCreated);
 
         const token = await studentCreated.generateToken();
 

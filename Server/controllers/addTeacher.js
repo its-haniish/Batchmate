@@ -1,11 +1,11 @@
 const Teachers = require('../models/Teachers.js');
 
 const addTeacher = async (req, res) => {
-    const { name, subject, branch, college } = req.body;
+    const { name, branch } = req.body;
 
     try {
         // Check if the teacher already exists
-        const teacherExist = await Teachers.findOne({ name, branch, college, subject });
+        const teacherExist = await Teachers.findOne({ name, branch });
 
         if (teacherExist) {
             return res.status(409).json({ error: 'Teacher already exists' });
