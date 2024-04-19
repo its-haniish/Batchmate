@@ -17,7 +17,9 @@ const signup = async (req, res) => {
 
         return res.status(200).json({
             msg: 'Account created successfully :)',
-            token
+            token,
+            studentId: studentCreated._id,
+            studentName: studentCreated.name
         });
 
     } catch (error) {

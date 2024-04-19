@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import { Rating, StickerStar } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { RotatingLines } from "react-loader-spinner"
+import { useNavigate } from "react-router-dom"
+
 
 const AddFeedback = () => {
-    
+    const { token, studentId, studentName } = useSelector(state => state.authReducer);
     const [rating, setRating] = useState(1);
     const [teachers, setTeachers] = useState([]);
-    const [formData, setFormData] = useState({
-        teacher: "",
-        stars: "",
-        message: ""
-    });
-
+    const [formData, setFormData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const getTeachersList = async () => {
         let res = await fetch(`${process.env.REACT_APP_BASE_URL}/get-teachers`, {
@@ -28,18 +30,34 @@ const AddFeedback = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        const data = { ...formData, stars: rating };
-        console.log(data);
-        let res = await fetch(`${process.env.REACT_APP_BASE_URL}/add-feedback`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
-        let result = await res.json();
+        setLoading(true)
 
-        console.log(result);
+        try {
 
+            const teacherId = teachers.filter(teacher => teacher.name === formData.teacherName)[0]?._id;
 
+            const data = { ...formData, stars: rating, teacherId, studentId, studentName, time: new Date().getTime() };
+
+            let res = await fetch(`${process.env.REACT_APP_BASE_URL}/add-feedback`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            console.log(result);
+            if (result?.message === "Feedback added successfully") {
+                setLoading(false)
+                toast.success(result.message)
+                return navigate("/")
+            }
+            setLoading(false)
+            return toast.error(result.error)
+
+        } catch (error) {
+            console.log(error);
+            setLoading(false)
+            return toast.error("Error saving the feedback.")
+        }
 
     }
 
@@ -58,10 +76,10 @@ const AddFeedback = () => {
                     <div className='w-screen flex flex-row justify-center gap-3 items-center' >
                         <label className='text-lg font-bold'>Select Teacher: </label>
 
-                        <select name="teacher" className='border rounded px-2 w-fit h-fit border-black shadow-md outline-none' onChange={handleChange}>
+                        <select name="teacherName" className='border rounded px-2 h-fit border-black shadow-md outline-none uppercase w-[50%]' onChange={handleChange}>
                             <option value="" >none</option>
                             {
-                                teachers.map(teacher => <option value={teacher.name} >{teacher.name}</option>)
+                                teachers.map(teacher => <option key={teacher._id} value={teacher.name} className='uppercase' >{teacher.name}</option>)
                             }
                         </select>
 
@@ -73,7 +91,9 @@ const AddFeedback = () => {
                     <textarea className='bg-gray-200 rounded-xl p-2 focus:outline-none focus:border-none shadow-md hover:bg-gray-300 transition-colors' cols="30" rows="7" placeholder='I would like to say...' name="message" onChange={handleChange}
                     ></textarea>
 
-                    <input className='bg-blue-300 rounded-xl p-3 px-5 text-white shadow-md font-bold hover:shadow-xl hover:bg-blue-500 transition-all' type="submit" value="Submit" />
+                    <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' type='submit' onClick={handleSubmit}>
+                        {!loading ? "SUBMIT" : <RotatingLines height="30" width="30" strokeColor='white' />}
+                    </button>
                 </form>
             </div>
 

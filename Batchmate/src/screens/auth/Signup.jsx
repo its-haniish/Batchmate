@@ -5,11 +5,12 @@ import { RotatingLines } from "react-loader-spinner"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
+import { setCookie } from "../../utils/cookies.js"
 
 const Signup = () => {
     const [showPass, setShowPass] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [otp, setOtp] = useState(Math.floor(Math.random() * 10000));
+    const [formData, setFormData] = useState({ name: "", email: "", password: "", cpassword: "" });
+    const [otp] = useState(Math.floor(Math.random() * 1000000));
     const [isOtpSent, setIsOtpSent] = useState(false)
     const [showCurrPass, setShowCurrPass] = useState(false);
     const [loading, setLoading] = useState(false)
@@ -19,43 +20,67 @@ const Signup = () => {
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    function setCookie(cookieName, cookieValue) {
-        // Set expiry date to 30 days from now
-        var expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 30);
-
-        // Convert expiry date to UTC string
-        var expires = expiryDate.toUTCString();
-
-        // Check if the current environment is localhost:3000
-        var isLocalhost = window.location.hostname === 'localhost' && window.location.port === '3000';
-
-        // Set cookie only for localhost:3000
-        var cookieOptions = isLocalhost ? 'SameSite=Strict; Secure;' : '';
-
-        document.cookie = cookieName + '=' + cookieValue + '; expires=' + expires + '; ' + cookieOptions;
-    }
-
     const handleSendOtp = async e => {
         e.preventDefault();
-        console.log(otp);
-    }
-
-
-    const handleSignup = async e => {
-        e.preventDefault();
         setLoading(true)
-        const { password, cpassword } = formData;
+        const { name, email, password, cpassword } = formData;
+
+        if (name === "" || email === "" || password === "" || cpassword === "") {
+            setLoading(false);
+            return toast.error("All fields are required.");
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setLoading(false);
+            return toast.error("Invalid email address.");
+        }
+
         if (password !== cpassword) {
             setLoading(false)
             return toast.error("Passwords does not match.")
         }
+
 
         if (password.length <= 5) {
             setLoading(false)
             return toast.error("Weak password.")
         }
 
+        try {
+            let res = await fetch(`${process.env.REACT_APP_BASE_URL}/send-email`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email, subject: "!!BATCHMATE VERIFICATION !!",
+                    msg: `<h2>Your verification code is ${otp}</h2>`
+                })
+            })
+            let result = await res.json();
+            if (result.message === "Message sent successfully") {
+                setIsOtpSent(true);
+                return setLoading(false)
+            }
+            toast.error("Failed to register.")
+            return setLoading(false)
+
+        } catch (error) {
+            setLoading(false)
+            toast.error('Failed to register.')
+        }
+
+
+
+    }
+
+
+    const handleSignup = async e => {
+        e.preventDefault();
+        setLoading(true)
+        if (otp !== +formData.userOtp) {
+            setLoading(false)
+            return toast.error("Invalid verification code.")
+        }
         try {
             let res = await fetch(`${process.env.REACT_APP_BASE_URL}/signup`, {
                 method: "POST",
@@ -64,18 +89,23 @@ const Signup = () => {
             });
 
             let result = await res.json()
-            setCookie("batchmate", result.token);
             if (result.msg === "Account created successfully :)") {
                 toast.success(result.msg);
+                setCookie("batchmate", JSON.stringify({
+                token: result.token,
+                studentId: result.studentId,
+                studentName: result.studentName
+                }));
+
             } else {
-                toast.error(result.msg);
+                return toast.error(result.msg);
             }
             setLoading(false)
             dispatch({
                 type: "loginUser",
-                action: {
-                    token: result.token
-                }
+                token: result.token,
+                studentId: result.studentId,
+                studentName: result.studentName
             })
             return navigate("/")
 
@@ -86,7 +116,7 @@ const Signup = () => {
     }
 
     return (
-        <form className='w-screen h-screen flex flex-col justify-start items-center'>
+        <form className='w-screen h-screen flex flex-col justify-start items-center' onSubmit={isOtpSent ? handleSignup : handleSendOtp}>
             <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >Batchmate</h1>
 
             {/* input name */}
@@ -97,6 +127,7 @@ const Signup = () => {
                 name='name'
                 onChange={handleChange}
                 required
+                readOnly={isOtpSent ? true : false}
             />
 
             {/* input email */}
@@ -107,6 +138,8 @@ const Signup = () => {
                 name='email'
                 onChange={handleChange}
                 required
+                readOnly={isOtpSent ? true : false}
+
             />
 
             <input
@@ -129,6 +162,8 @@ const Signup = () => {
                         name='password'
                         onChange={handleChange}
                         required
+                        readOnly={isOtpSent ? true : false}
+
                     />
                     <button className='absolute top-0 right-4 bottom-0' onClick={() => { setShowPass(!showPass) }}>
                         {
@@ -150,6 +185,7 @@ const Signup = () => {
                         name='cpassword'
                         onChange={handleChange}
                         required
+                        readOnly={isOtpSent ? true : false}
                     />
                     <button className='absolute top-0 right-4 bottom-0' onClick={() => { setShowCurrPass(!showCurrPass) }}>
                         {
@@ -162,7 +198,7 @@ const Signup = () => {
 
 
             <div className='mt-1 flex w-[70vw] justify-between items-start text-blue-600 active:text-blue-950'>
-                <NavLink to="/login" className="text-[0.9rem]">Already have an account?</NavLink>
+                <NavLink to="/login" className="text-[0.9rem] font-semibold">Already have an account?</NavLink>
             </div>
 
 
@@ -176,21 +212,22 @@ const Signup = () => {
                             type='number'
                             placeholder='Enter verification code..'
                             className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
-                            name='otp'
+                            name='userOtp'
                             onChange={handleChange}
                             required
                         />
                     </div>
 
                     <div className='mt-1 flex w-[70vw] justify-end items-start text-blue-600 active:text-blue-950'>
-                        <button className="text-[0.9rem] text-right">Resend</button>
+                        <p className="text-[0.9rem] text-right font-semibold">Resend</p>
                     </div>
 
                 </div>
 
             }
 
-            <button className='mt-6 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-30 h-10 flex justify-center items-center' onClick={isOtpSent ? handleSignup : handleSendOtp}>
+            <button type='submit' className='mt-6 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-32 h-10 flex justify-center items-center'
+            >
                 {!loading ?
                     isOtpSent ? "VERIFY" : "SIGN UP"
                     : <RotatingLines height="30" width="30" strokeColor='white' />}

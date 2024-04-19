@@ -29,6 +29,7 @@ const feedbackSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
+    
 });
 
 const Feedbacks = new mongoose.model('Feedbacks', feedbackSchema);

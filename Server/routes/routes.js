@@ -13,7 +13,7 @@ const deleteFeedback = require('../controllers/deleteFeedback.js')
 routes
     .post('/signup', signup)
     .post('/login', login)
-    .post('/sendEmail', sendEmail)
+    .post('/send-email', sendEmail)
     .post('/add-teacher', addTeacher)
     .post('/get-teachers', searchTeachers)
     .post('/add-feedback', addFeedback)
