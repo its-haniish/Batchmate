@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/navbar/Navbar';
-
+import { RiImageEditFill } from "react-icons/ri";
+import styles from './profile.module.css'
 
 const Profile = () => {
     return (
@@ -8,10 +9,13 @@ const Profile = () => {
             <Navbar />
             {/* <h1 className='text-4xl  px-2 my-4 font-extrabold'>Profile</h1> */}
             <div className='h-fit w-screen my-4 flex flex-row justify-around items-center'>
-                <img src="" alt="" className='h-28 w-28 rounded-full bg-red-500 ' />
+                <div className='flex flex-col items-center justify-center'>
+                <img src="" alt="" id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
+                <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
+                </div>
                 <div className='text-center'>
                     <h2 className='text-3xl font-extrabold'>Naman Saini</h2>
-                    <h3 className='text-2xl font-bold'>Student</h3>
+                    <h3 className='text-2xl font-bold text-gray-700'>Student</h3>
                 </div>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>

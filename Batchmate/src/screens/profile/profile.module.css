@@ -1,0 +1,7 @@
+#editIcon{
+    display: none;
+    transition: 0.2s;
+}
+#userImage:is(:hover, :focus) + #editIcon{
+    display: block;
+}

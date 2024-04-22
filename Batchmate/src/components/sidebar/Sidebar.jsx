@@ -51,7 +51,7 @@ const Sidebar = ({ closeSidebar }) => {
                 </li>
 
                 <li className='text-center'>
-                    <NavLink to="/" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
+                    <NavLink to="/developers" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
                         <FaCode size={18} className='mr-1' />Devs
                     </NavLink>
                 </li>

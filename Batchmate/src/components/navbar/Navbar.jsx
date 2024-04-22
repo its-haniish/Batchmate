@@ -31,12 +31,14 @@ const Navbar = () => {
             </div>
 
             {/* Image wrapper */}
-            <button className='bg-none border-none'>
-                <img
-                    className='w-[30px] h-[30px]'
-                    src="/images/dummy-user.png"
-                    alt="user-image" />
-            </button>
+            <NavLink to="/profile" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
+                <button className='bg-none border-none'>
+                    <img
+                        className='w-[30px] h-[30px]'
+                        src="/images/dummy-user.png"
+                        alt="user-image" />
+                </button>
+            </NavLink>
 
             {/* Sidebar */}
             {sidebarVisible && <Sidebar closeSidebar={closeSidebar} />}
