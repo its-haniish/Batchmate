@@ -2,21 +2,22 @@ import React from 'react'
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 
-const Teacher = () => {
+const Teacher = ({ name, id }) => {
     return (
-
-        <NavLink to="/teachers-details" className='mx-2 shadow-md w-[68vw] h-[100%] bg-gray-100 rounded-lg flex justify-start items-center flex-shrink-0 snap-center'>
+        <NavLink to={{ pathname: `/teacher-details/${id}` }} className='mx-2 shadow-md w-[68vw] h-[100%] bg-gray-100 rounded-lg flex justify-start items-center flex-shrink-0 snap-center' >
             <div className='w-full h-full flex flex-col justify-evenly items-center'>
 
                 {/* review details */}
-                    <div className='bg-gray-200 w-[60%] h-[40%] rounded-2xl '>
-                        <img src="/images/dummy-teacher.png" alt="teacher" className='w-[80%] h-full mx-auto' />
-                    </div>
+                <div className='bg-gray-200 w-[60%] h-[40%] rounded-2xl '>
+                    <img src={`${process.env.REACT_APP_BASE_URL}/images/${name}.png`} alt={name} className='w-[80%] h-full mx-auto' />
+                </div>
 
                 {/* teacher details */}
                 <div className='flex justify-between items-center w-full h-fit'>
 
-                    <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap'>Hanish Kumar</p>
+                    <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>
+                        {name}
+                    </p>
 
                     <div className='flex justify-start items-center gap-1'>
                         <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
@@ -35,10 +36,10 @@ const Teacher = () => {
 
 
                 <p className='bg-red-200 rounded-full p-1 text-center text-[20px] text-gray-900 font-bold font-Nunito w-full'>150 Reviews</p>
-                <p className='bg-orange-300 rounded-full p-1 text-center text-[20px] text-gray-900 font-Nunito font-bold w-full'>Good Feedbacks</p>
+                <p className='bg-orange-300 rounded-full p-1 text-center text-[20px] text-gray-900 font-Nunito font-bold w-full'>More Details</p>
 
             </div>
-        </NavLink>
+        </NavLink >
     )
 }
 

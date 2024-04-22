@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from "react-loader-spinner"
 import { useNavigate } from "react-router-dom"
+import getTeachersList from "../../utils/getTeachersList.js"
 
 
 const AddFeedback = () => {
@@ -16,15 +17,6 @@ const AddFeedback = () => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
-    const getTeachersList = async () => {
-        let res = await fetch(`${process.env.REACT_APP_BASE_URL}/get-teachers`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-        });
-        let result = await res.json();
-        setTeachers(result);
-    }
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -62,7 +54,7 @@ const AddFeedback = () => {
     }
 
     useEffect(() => {
-        getTeachersList();
+        getTeachersList(setTeachers);
     }, [])
 
     return (

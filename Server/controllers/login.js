@@ -19,10 +19,7 @@ const login = async (req, res) => {
 
         res.status(200).json({
             message: "Login successfull",
-            token: await studentExist.generateToken(),
-            studentId: await studentExist.id,
-            studentName: await studentExist.name
-
+            token: await studentExist.generateToken()
         })
 
     } catch (error) {

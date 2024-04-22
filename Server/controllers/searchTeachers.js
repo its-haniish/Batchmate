@@ -1,4 +1,5 @@
 const Teachers = require('../models/Teachers')
+const Feedbacks = require('../models/Feedbacks')
 
 const searchTeachers = async (req, res) => {
 
@@ -15,4 +16,22 @@ const searchTeachers = async (req, res) => {
 
 }
 
-module.exports = searchTeachers;
+const searchTeachById = async (req, res) => {
+    const { id } = req.body
+
+    try {
+        console.log(id);
+        const teacher = await Teachers.findOne({ _id: id });
+        let feedbacks = await Feedbacks.find({ teacherId: id });
+        if (!feedbacks) {
+            feedbacks = []
+        }
+        return res.status(200).json({ teacher, feedbacks });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json([])
+    }
+}
+
+module.exports = { searchTeachers, searchTeachById };

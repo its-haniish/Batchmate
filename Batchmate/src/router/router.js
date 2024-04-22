@@ -7,6 +7,7 @@ import Home from '../screens/home/Home.jsx';
 import AddFeedback from '../screens/add-feedback/AddFeedback.jsx';
 import AllTeachers from '../screens/teachers/AllTeachers.jsx'
 import TeacherDetails from '../components/teacher/TeacherDetails.jsx';
+import Profile from "../screens/profile/Profile.jsx"
 
 const router = createBrowserRouter([
     {
@@ -34,8 +35,12 @@ const router = createBrowserRouter([
         element: <AllTeachers />
     },
     {
-        path: "/teachers-details",
+        path: "/teacher-details/:id",
         element: <TeacherDetails />
+    },
+    {
+        path: "/profile",
+        element: <Profile />
     }
 
 ]);
