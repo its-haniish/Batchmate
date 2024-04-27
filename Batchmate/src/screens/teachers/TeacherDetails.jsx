@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { FaStar, FaStarHalf } from "react-icons/fa";
-import FeedbackForm from '../feedback/FeedbackForm';
-import Navbar from '../navbar/Navbar';
+import FeedbackForm from '../../components/feedback/FeedbackForm';
+import Navbar from '../../components/navbar/Navbar';
 import { useParams } from 'react-router-dom';
 import { getTeacherInfo } from "../../utils/getTeacherInfo"
-import Feedback from '../feedback/Feedback';
-
+import Feedback from '../../components/feedback/Feedback';
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import autoLogin from '../../utils/autoLogin';
 
 export const TeacherDetails = ({ name }) => {
     const { id } = useParams();
     const [teachInfo, setTeachInfo] = useState([]);
-
+    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getTeacherInfo(id, setTeachInfo)
+        const autoLoginVal = autoLogin(isUserLoggedIn, dispatch);
+
     }, [])
     return (
         <>
@@ -56,15 +62,21 @@ export const TeacherDetails = ({ name }) => {
                 </div>
             </div>
             {/* write a review */}
-            <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible'>
-                <FeedbackForm />
-            </div>
+            {
+                isUserLoggedIn &&
+                <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible'>
+                    <FeedbackForm 
+                        teacherName={teachInfo.teacher?.name} 
+                        teacherId={teachInfo.teacher?._id} />
+                </div>
+            }
+
             {/* others review */}
-            <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible my-2'>
+            <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible my-2 flex flex-col justify-start items-center gap-3'>
                 {
                     teachInfo.feedbacks?.length === 0 ? <p className='font-bold font-Nunito text-lg text-center'>!! No Feedbacks Found !!</p> :
                         teachInfo.feedbacks?.map(feedback => (
-                            <Feedback />
+                            <Feedback key={feedback._id} />
                         ))
                 }
             </div>

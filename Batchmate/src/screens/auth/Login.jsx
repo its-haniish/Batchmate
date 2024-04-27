@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom"
 import { RotatingLines } from 'react-loader-spinner';
@@ -32,15 +32,11 @@ const Login = () => {
             if (result.message === "Login successfull") {
                 toast.success(result.message);
                 setCookie("batchmate", JSON.stringify({
-                    token: result.token,
-                    studentId: result.studentId,
-                    studentName: result.studentName
+                    token: result.token
                 }));
                 dispatch({
                     type: "loginUser",
-                    token: result.token,
-                    studentId: result.studentId,
-                    studentName: result.studentName
+                    token: result.token
                 })
                 setLoading(false)
                 return navigate("/")
@@ -54,6 +50,10 @@ const Login = () => {
             return toast.error("Error creating account.")
         }
     }
+
+    useEffect(() => {
+
+    })
 
     return (
         <form onSubmit={(e) => e.preventDefault()} className='w-screen h-screen flex flex-col justify-start items-center'>

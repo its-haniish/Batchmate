@@ -6,14 +6,15 @@ function authenticateToken(req, res, next) {
 
     // Extract the Authorization header from the request
     const authorizationHeader = req.headers['authorization'];
-
     // Check if Authorization header is missing
+    console.log(authenticateToken);
     if (!authorizationHeader) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
     // Extract the token from the Authorization header
     const token = authorizationHeader.split(' ')[1];
+    console.log("token: ", token);
 
     // Check if token is missing
     if (!token) {
@@ -28,9 +29,10 @@ function authenticateToken(req, res, next) {
         req.user = decoded;
 
         // Move to the next middleware in the chain
+        console.log("Token verified successfully");
         next();
     } catch (error) {
-
+        console.log("Forbidden");
         // Return a Forbidden response if token verification fails
         return res.status(403).json({ message: 'Forbidden' });
     }

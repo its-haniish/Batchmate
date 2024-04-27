@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import { Rating, StickerStar } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from "react-loader-spinner"
 import { useNavigate } from "react-router-dom"
 import getTeachersList from "../../utils/getTeachersList.js"
+import autoLogin from '../../utils/autoLogin.js';
 
 
 const AddFeedback = () => {
-    const { token, studentId, studentName } = useSelector(state => state.authReducer);
+    const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
     const [rating, setRating] = useState(1);
     const [teachers, setTeachers] = useState([]);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -28,11 +30,15 @@ const AddFeedback = () => {
 
             const teacherId = teachers.filter(teacher => teacher.name === formData.teacherName)[0]?._id;
 
-            const data = { ...formData, stars: rating, teacherId, studentId, studentName, time: new Date().getTime() };
+            const data = { ...formData, stars: rating, teacherId, time: new Date().getTime() };
+            const tokenParsed = JSON.parse(token);
 
             let res = await fetch(`${process.env.REACT_APP_BASE_URL}/add-feedback`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${tokenParsed.token}`
+                },
                 body: JSON.stringify(data)
             });
             let result = await res.json();
@@ -54,7 +60,16 @@ const AddFeedback = () => {
     }
 
     useEffect(() => {
-        getTeachersList(setTeachers);
+        if (!isUserLoggedIn) {
+            navigate("/login")
+            toast.error("Login to view profile.")
+        } else {
+            getTeachersList(setTeachers);
+        }
+    }, [])
+
+    useLayoutEffect(() => {
+        autoLogin(isUserLoggedIn, dispatch)
     }, [])
 
     return (

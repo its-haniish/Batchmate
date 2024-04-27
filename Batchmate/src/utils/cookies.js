@@ -33,3 +33,17 @@ export function setCookie(cookieName, cookieValue) {
 
     document.cookie = cookieName + '=' + cookieValue + '; expires=' + expires + '; ' + cookieOptions;
 }
+
+export function removeCookie(cookieName) {
+    // Set expiry date to a past date
+    var pastDate = new Date(0).toUTCString();
+
+    // Check if the current environment is localhost:3000
+    var isLocalhost = window.location.hostname === 'localhost' && window.location.port === '3000';
+
+    // Set cookie only for localhost:3000
+    var cookieOptions = isLocalhost ? 'SameSite=Strict; Secure;' : '';
+
+    document.cookie = cookieName + '=; expires=' + pastDate + '; ' + cookieOptions;
+}
+

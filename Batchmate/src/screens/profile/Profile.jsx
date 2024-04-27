@@ -1,17 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Navbar from '../../components/navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
 import { RiImageEditFill } from "react-icons/ri";
-import styles from './profile.module.css'
+import styles from './profile.module.css';
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { MdOutlineLogout } from "react-icons/md";
+import autoLogin from '../../utils/autoLogin';
+import { removeCookie } from '../../utils/cookies';
 
 const Profile = () => {
+    const [data, setData] = useState({
+        name: "", id: "", image: ""
+    })
+    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (!isUserLoggedIn) {
+            navigate("/login")
+            toast.error("Login to view profile.")
+        }
+    }, [])
+
+    useLayoutEffect(() => {
+        autoLogin(isUserLoggedIn, dispatch)
+    }, [])
+
     return (
         <>
             <Navbar />
             {/* <h1 className='text-4xl  px-2 my-4 font-extrabold'>Profile</h1> */}
             <div className='h-fit w-screen my-4 flex flex-row justify-around items-center'>
                 <div className='flex flex-col items-center justify-center'>
-                <img src="" alt="" id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
-                <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
+                    <img src="/images/dummy-user.png" alt="" id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
+
+                    <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
                 </div>
                 <div className='text-center'>
                     <h2 className='text-3xl font-extrabold'>Naman Saini</h2>
@@ -45,8 +72,24 @@ const Profile = () => {
             <div className='flex flex-col px-2 my-4 gap-2'>
                 <h2 className='text-3xl font-extrabold'>Danger Section</h2>
                 <hr />
-                <div className='flex flex-row items-center gap-3'>
-                    <button className='px-3 py-2 bg-red-500 rounded-xl text-white font-bold self-center'>Change Password</button>
+                <div className='flex justify-between'>
+
+                    <div className='flex flex-row items-center gap-3'>
+                        <button className='px-3 py-2 bg-red-500 rounded-xl text-white font-bold self-center'>Change Password</button>
+                    </div>
+
+                    <div className='flex flex-row items-center gap-3'>
+                        <button className='flex flex-row justify-center items-center px-3 py-2 bg-red-500 rounded-xl text-white font-bold self-center'
+                            onClick={() => {
+                                dispatch({
+                                    type: "logoutUser"
+                                })
+                                removeCookie("batchmate")
+                                console.log("Loggging out user...");
+                                return navigate("/")
+                            }}
+                        ><MdOutlineLogout size={28} fill='#fff' color='#fff' /> LOGOUT</button>
+                    </div>
                 </div>
             </div>
 

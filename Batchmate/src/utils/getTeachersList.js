@@ -5,7 +5,6 @@ const getTeachersList = async (setTeachers) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${JSON.parse(getCookie("batchmate")).token}`
         },
     });
     let result = await res.json();

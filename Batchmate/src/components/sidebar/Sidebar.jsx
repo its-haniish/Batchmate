@@ -1,12 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { HiHome } from "react-icons/hi2";
 import { FaPen } from "react-icons/fa";
 import { GiTeacher } from "react-icons/gi";
 import { FaCode } from "react-icons/fa";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from "react-redux"
+
+
 
 const Sidebar = ({ closeSidebar }) => {
     const sidebarRef = useRef(null);
+    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -38,9 +45,13 @@ const Sidebar = ({ closeSidebar }) => {
 
 
                 <li className='text-center'>
-                    <NavLink to="/write-feedback" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
+                    <button className="font-Nunito font-semibold text-xl text-center flex justify-center items-center"
+                        onClick={() => {
+                            !isUserLoggedIn ? toast.error("Login to write feedback.") :
+                                navigate("/write-feedback")
+                        }}>
                         <FaPen size={18} className='mr-1' />Write
-                    </NavLink>
+                    </button>
                 </li>
 
 

@@ -92,9 +92,7 @@ const Signup = () => {
             if (result.msg === "Account created successfully :)") {
                 toast.success(result.msg);
                 setCookie("batchmate", JSON.stringify({
-                token: result.token,
-                studentId: result.studentId,
-                studentName: result.studentName
+                    token: result.token
                 }));
 
             } else {
@@ -103,9 +101,7 @@ const Signup = () => {
             setLoading(false)
             dispatch({
                 type: "loginUser",
-                token: result.token,
-                studentId: result.studentId,
-                studentName: result.studentName
+                token: result.token
             })
             return navigate("/")
 

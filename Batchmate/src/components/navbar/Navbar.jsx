@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FcSearch } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Sidebar from '../sidebar/Sidebar';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from "react-redux"
+
 
 const Navbar = () => {
     const [sidebarVisible, setSidebarVisible] = useState(false);
+    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const navigate = useNavigate()
 
     const openSidebar = () => {
         setSidebarVisible(true);
@@ -18,6 +22,15 @@ const Navbar = () => {
     useEffect(() => {
         setSidebarVisible(false);
     }, [])
+
+    const handleProfileClick = () => {
+        if (!isUserLoggedIn) {
+            toast.error("Login to view profile.")
+            navigate("/login")
+        } else {
+            navigate("/profile")
+        }
+    }
     return (
         <nav className='w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow'>
 
@@ -31,14 +44,14 @@ const Navbar = () => {
             </div>
 
             {/* Image wrapper */}
-            <NavLink to="/profile" className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
-                <button className='bg-none border-none'>
+            <div className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
+                <button className='bg-none border-none' onClick={handleProfileClick}>
                     <img
                         className='w-[30px] h-[30px]'
                         src="/images/dummy-user.png"
                         alt="user-image" />
                 </button>
-            </NavLink>
+            </div>
 
             {/* Sidebar */}
             {sidebarVisible && <Sidebar closeSidebar={closeSidebar} />}

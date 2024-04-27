@@ -4,8 +4,7 @@ export const getTeacherInfo = async (id, setTeachInfo) => {
     let res = await fetch(`${process.env.REACT_APP_BASE_URL}/search-teacher-by-id`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${JSON.parse(getCookie("batchmate")).token}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({ id })
     });
