@@ -10,11 +10,13 @@ import { toast } from 'react-toastify';
 import autoLogin from '../../utils/autoLogin.js';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux"
+import { getLatestFeedbacks } from '../../utils/getLatestFeedbacks.js';
 
 
 
 const Home = () => {
     const [teachers, setTeachers] = useState([]);
+    const [latestFeedbacks, setLatestFeedbacks] = useState([])
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -22,6 +24,7 @@ const Home = () => {
 
     useEffect(() => {
         getTeachersList(setTeachers)
+        getLatestFeedbacks(setLatestFeedbacks)
     }, [])
 
     useLayoutEffect(() => {
@@ -60,8 +63,36 @@ const Home = () => {
                     <h2 className='text-left pl-2 pt-1 my-1 text-2xl font-bold font-Nunito'>Latest Feedbacks</h2>
 
                     <div className='w-screen h-[24vh] overflow-x-scroll flex flex-no-wrap py-2 snap-x'>
-                        <Feedback />
-                        <FeedbackLoader />
+                        {
+                            latestFeedbacks.length === 0 ?
+                                <>
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+                                    <FeedbackLoader />
+
+                                </> :
+                                latestFeedbacks?.map(feedback => {
+                                    const { message, teacherName, teacherId, studentName, studentId, stars, time, _id } = feedback
+                                    return (
+                                        <Feedback
+                                            key={_id}
+                                            message={message}
+                                            teacherName={teacherName}
+                                            teacherId={teacherId}
+                                            studentName={studentName}
+                                            studentId={studentId}
+                                            stars={stars}
+                                            time={time} />
+                                    )
+                                })
+                        }
                     </div>
                 </section>
 

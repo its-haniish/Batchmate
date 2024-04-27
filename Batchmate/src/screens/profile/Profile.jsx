@@ -9,12 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineLogout } from "react-icons/md";
 import autoLogin from '../../utils/autoLogin';
 import { removeCookie } from '../../utils/cookies';
+import { getUserDetails } from "../../utils/getUserDetails"
 
 const Profile = () => {
-    const [data, setData] = useState({
-        name: "", id: "", image: ""
-    })
-    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const [data, setData] = useState({})
+    const { isUserLoggedIn, token } = useSelector(state => state.authReducer)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -27,7 +26,10 @@ const Profile = () => {
     }, [])
 
     useLayoutEffect(() => {
-        autoLogin(isUserLoggedIn, dispatch)
+        autoLogin(isUserLoggedIn, dispatch, toast, navigate)
+        if (token !== null) {
+            getUserDetails(JSON.parse(token).token, setData)
+        }
     }, [])
 
     return (
@@ -41,7 +43,7 @@ const Profile = () => {
                     <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
                 </div>
                 <div className='text-center'>
-                    <h2 className='text-3xl font-extrabold'>Naman Saini</h2>
+                    <h2 className='text-3xl font-extrabold'>{data?.name}</h2>
                     <h3 className='text-2xl font-bold text-gray-700'>Student</h3>
                 </div>
             </div>
@@ -66,7 +68,7 @@ const Profile = () => {
                 <hr />
                 <div className='flex flex-row items-center gap-3'>
                     <h3 className='text-xl font-bold'>Email: </h3>
-                    <textarea className='text-wrap w-max' type="email" name="" id="" value={'thisisnamansaini@gmail.com'} placeholder='college name..' readOnly />
+                    <textarea className='text-wrap w-max' type="email" name="" id="" value={data?.email} placeholder='college name..' readOnly />
                 </div>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>

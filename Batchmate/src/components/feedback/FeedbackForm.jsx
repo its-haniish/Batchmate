@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Rating, StickerStar } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -6,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RotatingLines } from 'react-loader-spinner';
+
 
 export const FeedbackForm = ({ teacherName, teacherId }) => {
     const { token } = useSelector(state => state.authReducer)
@@ -56,7 +57,12 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
             <Rating style={{ maxWidth: 230, filter: 'drop-shadow(0 0 2px orange)' }} value={rating} onChange={setRating} itemStyles={{ itemShapes: StickerStar, activeFillColor: '#ffb700', inactiveFillColor: '#fbf990' }} />
             <textarea className='bg-gray-200 rounded-xl p-2 focus:outline-none focus:border-none shadow-md hover:bg-gray-300 transition-colors' cols="30" rows="7" placeholder='I would like to say...'
                 name="message" onChange={handleChange}></textarea>
-            <input className='bg-black rounded-xl p-3 px-5 text-white shadow-md font-bold hover:shadow-xl hover:bg-blue-500 transition-all' type="submit" value="Submit" />
+
+            <button className='bg-black rounded-xl p-3 px-5 text-white shadow-md font-bold flex justify-center items-center hover:shadow-xl hover:transition-all' type="submit">
+                {
+                    loading ? <RotatingLines height="30" width="30" strokeColor='white' />
+                        : "SUBMIT"
+                }</button>
         </form>
     )
 }
