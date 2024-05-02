@@ -4,7 +4,7 @@ import FeedbackForm from '../../components/feedback/FeedbackForm';
 import Navbar from '../../components/navbar/Navbar';
 import { useParams } from 'react-router-dom';
 import { getTeacherInfo } from "../../utils/getTeacherInfo"
-import Feedback from '../../components/feedback/Feedback';
+import AllFeedbacks from './AllFeedbacks';
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -72,11 +72,11 @@ export const TeacherDetails = ({ name }) => {
             }
 
             {/* others review */}
-            <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible my-2 flex flex-col justify-start items-center gap-3'>
+            <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible my-2 flex flex-col justify-start items-center gap-5'>
                 {
                     teachInfo.feedbacks?.length === 0 ? <p className='font-bold font-Nunito text-lg text-center'>!! No Feedbacks Found !!</p> :
                         teachInfo.feedbacks?.map(feedback => (
-                            <Feedback key={feedback._id} />
+                            <AllFeedbacks key={feedback._id} message={"A test feedback"} studentName={"tester"} stars={3} />
                         ))
                 }
             </div>
