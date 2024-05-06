@@ -20,8 +20,8 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
     const handleSubmit = async e => {
         e.preventDefault()
         setLoading(true)
-        const data = { ...formData, teacherName, stars: rating, teacherId, time: new Date().getTime() };
-        const tokenParsed = JSON.parse(token);
+        // const data = { ...formData, teacherName, stars: rating, teacherId, time: new Date().getTime() };
+        // const tokenParsed = JSON.parse(token);
 
         try {
             const data = { ...formData, teacherName, stars: rating, teacherId, time: new Date().getTime() };
@@ -29,7 +29,7 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${tokenParsed.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             });

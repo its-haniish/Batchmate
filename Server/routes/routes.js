@@ -12,6 +12,7 @@ const deleteFeedback = require('../controllers/deleteFeedback.js')
 const autoLogin = require("../controllers/autoLogin.js")
 const getLatestFeedbacks = require("../controllers/getLatestFeedbacks.js")
 const getUserDetails = require("../controllers/getUserDetails.js")
+const getFeedbackCount = require("../controllers/getFeebackCount.js")
 
 // importing the middlewares 
 const authenticateToken = require("../middlewares/authenticateToken.js")
@@ -28,5 +29,6 @@ routes
     .post('/auto-login', autoLogin)
     .post('/get-latest-feedbacks', getLatestFeedbacks)
     .post('/get-user-info', authenticateToken, getUserDetails)
+    .post('/get-feedback-count', getFeedbackCount)
 
 module.exports = routes;

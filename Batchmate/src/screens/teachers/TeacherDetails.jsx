@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { FaStar, FaStarHalf } from "react-icons/fa";
 import FeedbackForm from '../../components/feedback/FeedbackForm';
 import Navbar from '../../components/navbar/Navbar';
 import { useParams } from 'react-router-dom';
 import { getTeacherInfo } from "../../utils/getTeacherInfo"
 import AllFeedbacks from './AllFeedbacks';
 import { useDispatch, useSelector } from "react-redux"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import autoLogin from '../../utils/autoLogin';
+import calculateAverageStars from "../../utils/calculateAverageStars";
+import StarRating from '../../components/stars/StarRating';
 
-export const TeacherDetails = ({ name }) => {
+export const TeacherDetails = () => {
     const { id } = useParams();
     const [teachInfo, setTeachInfo] = useState([]);
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
@@ -18,8 +17,7 @@ export const TeacherDetails = ({ name }) => {
 
     useEffect(() => {
         getTeacherInfo(id, setTeachInfo)
-        const autoLoginVal = autoLogin(isUserLoggedIn, dispatch);
-
+        autoLogin(isUserLoggedIn, dispatch)
     }, [])
     return (
         <>
@@ -39,11 +37,7 @@ export const TeacherDetails = ({ name }) => {
                             </p>
 
                             <div className='flex justify-start items-center gap-1'>
-                                <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="20px" />
-                                <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="20px" />
-                                <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="20px" />
-                                <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="20px" />
-                                <FaStarHalf stroke='gray' strokeWidth="50px" fill='gold' size="20px" />
+                                <StarRating rating={calculateAverageStars(teachInfo?.feedbacks || [])} />
                             </div>
 
                         </div>
@@ -65,8 +59,8 @@ export const TeacherDetails = ({ name }) => {
             {
                 isUserLoggedIn &&
                 <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible'>
-                    <FeedbackForm 
-                        teacherName={teachInfo.teacher?.name} 
+                    <FeedbackForm
+                        teacherName={teachInfo.teacher?.name}
                         teacherId={teachInfo.teacher?._id} />
                 </div>
             }
@@ -76,7 +70,7 @@ export const TeacherDetails = ({ name }) => {
                 {
                     teachInfo.feedbacks?.length === 0 ? <p className='font-bold font-Nunito text-lg text-center'>!! No Feedbacks Found !!</p> :
                         teachInfo.feedbacks?.map(feedback => (
-                            <AllFeedbacks key={feedback._id} message={"A test feedback"} studentName={"tester"} stars={3} />
+                            <AllFeedbacks key={feedback._id} message={feedback?.message} studentName={feedback?.studentName} stars={feedback?.stars} time={feedback?.time} />
                         ))
                 }
             </div>

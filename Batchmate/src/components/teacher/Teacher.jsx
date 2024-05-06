@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
+import { getTeacherInfo } from '../../utils/getTeacherInfo';
+import calculateAverageStars from "../../utils/calculateAverageStars"
+import StarRating from "../../components/stars/StarRating"
 
 const Teacher = ({ name, id }) => {
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        getTeacherInfo(id, setData)
+    }, [])
     return (
         <NavLink to={{ pathname: `/teacher-details/${id}` }} className='mx-2 shadow-md w-[68vw] h-[100%] bg-gray-100 rounded-lg flex justify-start items-center flex-shrink-0 snap-center' >
             <div className='w-full h-full flex flex-col justify-evenly items-center'>
@@ -18,14 +26,17 @@ const Teacher = ({ name, id }) => {
                     <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>
                         {name}
                     </p>
-
-                    <div className='flex justify-start items-center gap-1'>
-                        <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                        <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                        <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                        <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                        <FaStarHalf stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                    </div>
+                    {
+                        data.feedbacks?.length !== 0 &&
+                        <div className='flex justify-start items-center gap-1'>
+                            <StarRating rating={calculateAverageStars(data?.feedbacks || [])} />
+                            {/* <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
+                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
+                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
+                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
+                            <FaStarHalf stroke='gray' strokeWidth="50px" fill='gold' size="15px" /> */}
+                        </div>
+                    }
 
                 </div>
                 {/* Additional details */}
@@ -34,8 +45,7 @@ const Teacher = ({ name, id }) => {
                     <p><span className='font-bold'>College:</span> GDGP Hisar</p>
                 </div>
 
-
-                <p className='bg-red-200 rounded-full p-1 text-center text-[20px] text-gray-900 font-bold font-Nunito w-full'>150 Reviews</p>
+                <p className='bg-red-200 rounded-full p-1 text-center text-[20px] text-gray-900 font-bold font-Nunito w-full'>{data.feedbacks?.length || 0} Reviews</p>
                 <p className='bg-orange-300 rounded-full p-1 text-center text-[20px] text-gray-900 font-Nunito font-bold w-full'>More Details</p>
 
             </div>

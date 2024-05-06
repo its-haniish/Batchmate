@@ -9,6 +9,6 @@ export const getTeacherInfo = async (id, setTeachInfo) => {
         body: JSON.stringify({ id })
     });
     let result = await res.json();
-    console.log(result);
+    // console.log(result);
     setTeachInfo(result)
 }

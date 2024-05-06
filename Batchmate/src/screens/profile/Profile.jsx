@@ -28,7 +28,7 @@ const Profile = () => {
     useLayoutEffect(() => {
         autoLogin(isUserLoggedIn, dispatch, toast, navigate)
         if (token !== null) {
-            getUserDetails(JSON.parse(token).token, setData)
+            getUserDetails(token, setData)
         }
     }, [])
 
