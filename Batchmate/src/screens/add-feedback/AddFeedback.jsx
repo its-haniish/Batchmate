@@ -61,15 +61,10 @@ const AddFeedback = () => {
 
     useEffect(() => {
         if (!isUserLoggedIn) {
-            navigate("/login")
-            toast.error("Login to view profile.")
+            navigate("/")
         } else {
             getTeachersList(setTeachers);
         }
-    }, [])
-
-    useLayoutEffect(() => {
-        autoLogin(isUserLoggedIn, dispatch)
     }, [])
 
     return (

@@ -7,14 +7,12 @@ function authenticateToken(req, res, next) {
     // Extract the Authorization header from the request
     const authorizationHeader = req.headers['authorization'];
     // Check if Authorization header is missing
-    console.log(authenticateToken);
     if (!authorizationHeader) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
     // Extract the token from the Authorization header
     const token = authorizationHeader.split(' ')[1];
-    console.log("token: ", token);
 
     // Check if token is missing
     if (!token) {

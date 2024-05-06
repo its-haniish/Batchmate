@@ -20,15 +20,9 @@ const Profile = () => {
     useEffect(() => {
 
         if (!isUserLoggedIn) {
-            navigate("/login")
-            toast.error("Login to view profile.")
-        }
-    }, [])
-
-    useLayoutEffect(() => {
-        autoLogin(isUserLoggedIn, dispatch, toast, navigate)
-        if (token !== null) {
-            getUserDetails(token, setData)
+            navigate("/")
+        } else {
+            getUserDetails(JSON.parse(token).token, setData)
         }
     }, [])
 

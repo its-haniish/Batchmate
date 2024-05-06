@@ -30,11 +30,6 @@ const Teacher = ({ name, id }) => {
                         data.feedbacks?.length !== 0 &&
                         <div className='flex justify-start items-center gap-1'>
                             <StarRating rating={calculateAverageStars(data?.feedbacks || [])} />
-                            {/* <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                            <FaStar stroke='gray' strokeWidth="50px" fill='gold' size="15px" />
-                            <FaStarHalf stroke='gray' strokeWidth="50px" fill='gold' size="15px" /> */}
                         </div>
                     }
 

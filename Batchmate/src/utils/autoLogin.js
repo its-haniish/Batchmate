@@ -1,9 +1,8 @@
 import { getCookie } from './cookies';
 
 const autoLogin = async (isUserLoggedIn, dispatch) => {
-    if (!isUserLoggedIn && getCookie("batchmate") !== null) {
-        const token = getCookie("batchmate");
-
+    const token = getCookie("batchmate");
+    if (!isUserLoggedIn && token !== null) {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auto-login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

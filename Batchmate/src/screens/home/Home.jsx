@@ -51,7 +51,7 @@ const Home = () => {
                                 teachers.map(teacher => {
                                     const { name, _id } = teacher;
                                     return (
-                                        <Teacher key={_id} id={_id}     name={name} />
+                                        <Teacher key={_id} id={_id} name={name} />
                                     )
                                 })
                         }
@@ -66,11 +66,6 @@ const Home = () => {
                         {
                             latestFeedbacks.length === 0 ?
                                 <>
-                                    <FeedbackLoader />
-                                    <FeedbackLoader />
-                                    <FeedbackLoader />
-                                    <FeedbackLoader />
-                                    <FeedbackLoader />
                                     <FeedbackLoader />
                                     <FeedbackLoader />
                                     <FeedbackLoader />
