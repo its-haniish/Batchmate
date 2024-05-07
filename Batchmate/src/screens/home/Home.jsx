@@ -99,7 +99,7 @@ const Home = () => {
 
                 {/* floating button */}
                 <button onClick={() => {
-                    isUserLoggedIn ? navigate("/write-feedback") : navigate("Login to write a feedback.")
+                    isUserLoggedIn ? navigate("/write-feedback") : toast.error("Login to write a feedback.")
                 }} className='w-12 h-12 fixed bottom-5 right-4 flex justify-center items-center border-none rounded-full bg-blue-600'>
                     <MdOutlineAddToPhotos size="30" fill='white' />
                 </button>
