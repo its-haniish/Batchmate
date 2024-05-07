@@ -20,7 +20,6 @@ const searchTeachById = async (req, res) => {
     const { id } = req.body
 
     try {
-        console.log(id);
         const teacher = await Teachers.findOne({ _id: id });
         let feedbacks = await Feedbacks.find({ teacherId: id });
         if (!feedbacks) {
