@@ -22,6 +22,10 @@ const studentSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    rollNo: {
+        type: Number,
+        required: true
     }
 });
 

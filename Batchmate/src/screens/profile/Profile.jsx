@@ -53,7 +53,7 @@ const Profile = () => {
                 </div>
                 <div className='flex flex-row items-center gap-3'>
                     <h3 className='text-xl font-bold'>Roll no: </h3>
-                    <input type="number" name="" id="" value={'210040800067'} placeholder='roll no..' readOnly />
+                    <input type="number" name="" id="" value={data?.rollNo} placeholder='roll no..' readOnly />
                 </div>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>

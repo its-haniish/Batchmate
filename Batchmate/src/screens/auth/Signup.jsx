@@ -150,6 +150,16 @@ const Signup = () => {
                     readOnly
                 />
 
+                <input
+                    type="text"
+                    placeholder='Roll no.'
+                    className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                    onChange={handleChange}
+                    name='rollNo'
+                    readOnly={isOtpSent ? true : false}
+                    required
+                />
+
 
                 {/* password input wrapper */}
                 <div className='mt-6 flex-col justify-center items-center'>

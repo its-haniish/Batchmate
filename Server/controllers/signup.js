@@ -1,7 +1,7 @@
 const Students = require('../models/Students.js');
 
 const signup = async (req, res) => {
-    const { email, password, name } = req.body;
+    const { email, password, name, rollNo } = req.body;
 
     try {
         const studentExist = await Students.findOne({ email });
@@ -10,7 +10,7 @@ const signup = async (req, res) => {
             return res.status(403).json({ error: 'Email already in use' }); // Return added
         }
 
-        let studentCreated = await Students.create({ name, email, password });
+        let studentCreated = await Students.create({ name, email, password, rollNo });
         console.log(studentCreated);
 
         const token = await studentCreated.generateToken();
