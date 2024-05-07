@@ -1,4 +1,3 @@
-import { getCookie } from "../utils/cookies"
 
 const getTeachersList = async (setTeachers) => {
     let res = await fetch(`${process.env.REACT_APP_BASE_URL}/get-teachers`, {

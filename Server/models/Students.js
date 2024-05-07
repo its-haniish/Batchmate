@@ -15,6 +15,10 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    feedbacks: {
+        type: Array,
+        default: []
+    },
     password: {
         type: String,
         required: true

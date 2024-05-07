@@ -6,7 +6,7 @@ const autoLogin = async (isUserLoggedIn, dispatch) => {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auto-login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: token
+            body: JSON.stringify({ token })
         })
 
         const result = await response.json();

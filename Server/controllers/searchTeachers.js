@@ -33,4 +33,20 @@ const searchTeachById = async (req, res) => {
     }
 }
 
-module.exports = { searchTeachers, searchTeachById };
+const getPopularTeachers = async (req, res) => {
+
+    try {
+        const teachers = await Teachers.find({});
+        if (!teachers) {
+            return res.status(200).json([]);
+        }
+        let popularTeachers = teachers.filter(teacher => teacher.feedbacks.length !== 0);
+        return res.status(200).json(popularTeachers);
+    } catch (error) {
+        return res.status(500).json([])
+    }
+
+}
+
+
+module.exports = { searchTeachers, searchTeachById, getPopularTeachers };

@@ -8,6 +8,10 @@ const teacherSchema = new mongoose.Schema({
     branch: {
         type: String,
         required: true
+    },
+    feedbacks: {
+        type: Array,
+        default: []
     }
 });
 

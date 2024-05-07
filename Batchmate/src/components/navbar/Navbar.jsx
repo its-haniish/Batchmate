@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FcSearch } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Sidebar from '../sidebar/Sidebar';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 
 const Navbar = () => {
@@ -25,7 +24,6 @@ const Navbar = () => {
 
     const handleProfileClick = () => {
         if (!isUserLoggedIn) {
-            toast.error("Login to view profile.")
             navigate("/login")
         } else {
             navigate("/profile")

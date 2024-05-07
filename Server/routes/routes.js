@@ -6,7 +6,7 @@ const signup = require('../controllers/signup.js');
 const login = require('../controllers/login.js');
 const sendEmail = require('../controllers/sendEmail.js');
 const addTeacher = require('../controllers/addTeacher.js')
-const { searchTeachers, searchTeachById } = require('../controllers/searchTeachers.js');
+const { searchTeachers, searchTeachById, getPopularTeachers } = require('../controllers/searchTeachers.js');
 const addFeedback = require('../controllers/addFeedback.js');
 const deleteFeedback = require('../controllers/deleteFeedback.js')
 const autoLogin = require("../controllers/autoLogin.js")
@@ -23,6 +23,7 @@ routes
     .post('/send-email', sendEmail)
     .post('/add-teacher', addTeacher)
     .post('/get-teachers', searchTeachers)
+    .post('/get-popular-teachers', getPopularTeachers)
     .post('/search-teacher-by-id', searchTeachById)
     .post('/add-feedback', authenticateToken, addFeedback)
     .post('/deleteFeedback', authenticateToken, deleteFeedback)

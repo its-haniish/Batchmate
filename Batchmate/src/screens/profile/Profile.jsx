@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Navbar from '../../components/navbar/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { RiImageEditFill } from "react-icons/ri";
 import styles from './profile.module.css';
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineLogout } from "react-icons/md";
-import autoLogin from '../../utils/autoLogin';
 import { removeCookie } from '../../utils/cookies';
 import { getUserDetails } from "../../utils/getUserDetails"
 
@@ -22,7 +21,7 @@ const Profile = () => {
         if (!isUserLoggedIn) {
             navigate("/")
         } else {
-            getUserDetails(JSON.parse(token).token, setData)
+            getUserDetails(token, setData)
         }
     }, [])
 
@@ -71,7 +70,7 @@ const Profile = () => {
                 <div className='flex justify-between'>
 
                     <div className='flex flex-row items-center gap-3'>
-                        <button className='px-3 py-2 bg-red-500 rounded-xl text-white font-bold self-center'>Change Password</button>
+                        <NavLink to="/forget-password" className='px-3 py-2 bg-red-500 rounded-xl text-white font-bold self-center'>Change Password</NavLink>
                     </div>
 
                     <div className='flex flex-row items-center gap-3'>

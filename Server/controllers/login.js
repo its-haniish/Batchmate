@@ -7,7 +7,7 @@ const login = async (req, res) => {
         const studentExist = await Students.findOne({ email });
 
         if (!studentExist) {
-            return res.status(500).json({ error: 'Invalid Credentials' })
+            return res.status(401).json({ message: 'Invalid Credentials' })
         }
 
         // If user exists, check the password

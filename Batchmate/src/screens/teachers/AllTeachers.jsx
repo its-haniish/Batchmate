@@ -38,8 +38,8 @@ const AllTeachers = () => {
               </div>
             </> :
             teachers.map(teacher => (
-              <div className='w-auto h-3/6 py-2'>
-                <Teacher name={teacher.name} id={teacher._id} key={teacher._id} />
+              <div className='w-auto h-3/6 py-2' key={teacher._id} >
+                <Teacher name={teacher.name} id={teacher._id} />
               </div>
             ))
         }
