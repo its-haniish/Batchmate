@@ -151,7 +151,7 @@ const Signup = () => {
                 />
 
                 <input
-                    type="text"
+                    type="number"
                     placeholder='Roll no.'
                     className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                     onChange={handleChange}
