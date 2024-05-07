@@ -40,7 +40,7 @@ const Home = () => {
                 <section>
                     <h2 className='text-left pl-2 pt-1 my-1 text-2xl font-bold font-Nunito'>Popular Teachers</h2>
 
-                    <div className={`w-screen h-[${isTeachersLoading ? '10vh' : '45vh'}] overflow-x-scroll flex flex-no-wrap py-2 *:px-1 snap-mandatory snap-x`}>
+                    <div className={`w-screen h-[45vh] overflow-x-scroll flex flex-no-wrap py-2 *:px-1 snap-mandatory snap-x`}>
                         {isTeachersLoading ?
                             <>
                                 <TeacherLoader />
