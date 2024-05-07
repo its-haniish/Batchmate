@@ -13,9 +13,10 @@ const autoLogin = require("../controllers/autoLogin.js")
 const getLatestFeedbacks = require("../controllers/getLatestFeedbacks.js")
 const getUserDetails = require("../controllers/getUserDetails.js")
 const getFeedbackCount = require("../controllers/getFeebackCount.js")
+const updatePasssword = require('../controllers/updatePassword.js');
 
 // importing the middlewares 
-const authenticateToken = require("../middlewares/authenticateToken.js")
+const authenticateToken = require("../middlewares/authenticateToken.js");
 
 routes
     .post('/signup', signup)
@@ -31,5 +32,6 @@ routes
     .post('/get-latest-feedbacks', getLatestFeedbacks)
     .post('/get-user-info', authenticateToken, getUserDetails)
     .post('/get-feedback-count', getFeedbackCount)
+    .post('/update-password', updatePasssword)
 
 module.exports = routes;

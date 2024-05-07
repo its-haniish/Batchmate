@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { RotatingLines } from 'react-loader-spinner';
 import { IoArrowBack } from "react-icons/io5";
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ const ForgetPass = () => {
     const [isOtpSent, setIsOtpSent] = useState(false);
     const [loading, setLoading] = useState(false)
     const { isUserLoggedIn } = useSelector(state => state.authReducer);
+    const navigate = useNavigate()
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -52,7 +53,7 @@ const ForgetPass = () => {
     const handleChangePass = async e => {
         e.preventDefault()
         setLoading(true);
-        const { password, cpassword } = formData;
+        const { email, password, cpassword } = formData;
         if (password !== cpassword) {
             setLoading(false)
             return toast.error("Passwords does not match.")
@@ -62,16 +63,43 @@ const ForgetPass = () => {
             setLoading(false)
             return toast.error("Weak password.")
         }
+        try {
+            let res = await fetch(`${process.env.REACT_APP_BASE_URL}/update-password`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email, password
+                })
+            })
+            let result = await res.json();
+            console.log(result.message);
+            setLoading(false)
+            if (result.message === "Password updated successfully.") {
+                toast.success(result.message);
+            } else {
+                toast.error(result.message)
+                if (result.message === "New password is same as your current password.") {
+                    return setLoading(false)
+                }
+            }
+            return isUserLoggedIn ?
+                navigate("/") : navigate("/login")
+        } catch (error) {
+            console.log(error);
+            toast.error("Unable to update password.")
+            return setLoading(false)
+        }
+
     }
 
 
     return (
         <>
-            <NavLink to={isUserLoggedIn ? "/profile" : "/login"} className="absolute top-3 left-3">
+            <button onClick={() => isOtpSent ? setIsOtpSent(false) : isUserLoggedIn ? navigate("/profile") : navigate("/login")} className="absolute top-3 left-3">
                 <IoArrowBack size={30} color='black' />
-            </NavLink>
+            </button>
 
-            <form onSubmit={isOtpSent ? handleChangePass : handleSendOtp} className='w-screen h-screen flex flex-col justify-start items-center'>
+            <form onSubmit={loading ? e => e.preventDefault() : isOtpSent ? handleChangePass : handleSendOtp} className='w-screen h-screen flex flex-col justify-start items-center'>
                 <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >RESET PASSWORD</h1>
                 {/* input email */}
 
@@ -147,7 +175,7 @@ const ForgetPass = () => {
                             onChange={handleChange}
                         />
                 }
-                <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' onClick={() => setLoading(!loading)}>
+                <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center'>
                     {!loading ? isOtpSent ? "VERIFY" : "SUBMIT" : <RotatingLines height="30" width="30" strokeColor='white' />}
                 </button>
 
