@@ -113,7 +113,7 @@ const Signup = () => {
 
     return (
         <>
-            <NavLink to="/" className="absolute top-3 left-3">
+            <NavLink to="/login" className="absolute top-3 left-3">
                 <IoArrowBack size={30} color='black' />
             </NavLink>
             <form className='w-screen h-screen flex flex-col justify-start items-center' onSubmit={isOtpSent ? handleSignup : handleSendOtp}>
