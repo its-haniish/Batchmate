@@ -7,7 +7,7 @@ const DevelopersData = ({ twitter, linkedin, insta, name, role }) => {
     return (
         <div className="bg-gray-200 w-40 h-64 p-6 rounded-2xl shadow-lg flex flex-col justify-around">
             <div className="flex flex-col items-center justify-center">
-                <div className="bg-gradient-to-t from-yellow-200 to-red-300 w-20 h-20 rounded-full mb-4">
+                <div className="overflow-hidden bg-gradient-to-t from-yellow-200 to-red-300 w-20 h-20 rounded-full mb-4">
                     <img src={`/devs/${name}.jpg`} alt={name} />
                 </div>
                 <div className="text-lg font-semibold text-gray-700">{name}</div>
