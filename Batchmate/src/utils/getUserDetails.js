@@ -8,5 +8,6 @@ export const getUserDetails = async (token, setData) => {
         }
     })
     let result = await res.json();
+
     setData(result);
 }
