@@ -10,16 +10,36 @@ import { MdOutlineLogout } from "react-icons/md";
 import { removeCookie } from '../../utils/cookies';
 
 const Profile = () => {
-    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const { isUserLoggedIn, token } = useSelector(state => state.authReducer)
     const { image, name, email, rollNo } = useSelector(state => state.userDetailsReducer)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const getTheUserData = async () => {
+        const resp = await fetch(`${process.env.REACT_APP_BASE_URL}/get-user-info`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        const parsedResp = await resp.json();
+
+        dispatch({
+            type: 'saveUserData',
+            ...parsedResp
+        })
+
+    }
+
     useEffect(() => {
 
         if (!isUserLoggedIn) {
             navigate("/")
+        }
+        if (name === null || email === null || rollNo === null || image === null) {
+            getTheUserData()
         }
     }, [])
 
