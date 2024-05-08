@@ -32,6 +32,20 @@ const Login = () => {
             let result = await res.json()
             if (result.message === "Login successfull") {
                 setCookie("batchmate", result.token);
+                const resp = await fetch(`${process.env.REACT_APP_BASE_URL}/get-user-info`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${result.token}`
+                    }
+                })
+                const parsedResp = await resp.json();
+
+                dispatch({
+                    type: 'saveUserData',
+                    ...parsedResp
+                })
+
                 dispatch({
                     type: "loginUser",
                     token: result.token
