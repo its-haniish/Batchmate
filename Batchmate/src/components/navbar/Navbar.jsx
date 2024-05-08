@@ -41,6 +41,10 @@ const Navbar = () => {
                 <button className='border-l border-l-slate-300 px-1'><FcSearch color='white' size="25px" /></button>
             </div> */}
 
+            <div className='bg-none flex justify-center items-center w-[60vw] relative  my-1'>
+                <h1 className='shadow-text-white text-bg-gradient text-xl font-["Rubik_Scribble"] font-semibold not-italic text-center'>BATCHMATE</h1>
+            </div>
+
             {/* Image wrapper */}
             <div className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
                 <button className='bg-none border-none' onClick={handleProfileClick}>

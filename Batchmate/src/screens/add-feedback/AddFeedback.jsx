@@ -13,8 +13,8 @@ import autoLogin from '../../utils/autoLogin.js';
 
 const AddFeedback = () => {
     const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
+    const { teachers } = useSelector(state => state.allTeachersReducer);
     const [rating, setRating] = useState(1);
-    const [teachers, setTeachers] = useState([]);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -31,13 +31,12 @@ const AddFeedback = () => {
             const teacherId = teachers.filter(teacher => teacher.name === formData.teacherName)[0]?._id;
 
             const data = { ...formData, stars: rating, teacherId, time: new Date().getTime() };
-            const tokenParsed = JSON.parse(token);
 
             let res = await fetch(`${process.env.REACT_APP_BASE_URL}/add-feedback`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${tokenParsed.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             });
@@ -60,10 +59,9 @@ const AddFeedback = () => {
     }
 
     useEffect(() => {
-        if (!isUserLoggedIn) {
-            navigate("/")
-        } else {
-            getTeachersList(setTeachers);
+
+        if (teachers === null) {
+            getTeachersList(dispatch, setLoading)
         }
     }, [])
 
