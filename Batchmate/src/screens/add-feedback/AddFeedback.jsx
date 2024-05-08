@@ -79,7 +79,7 @@ const AddFeedback = () => {
                         <select name="teacherName" className='border rounded px-2 h-fit border-black shadow-md outline-none uppercase w-[50%]' onChange={handleChange}>
                             <option value="" >none</option>
                             {
-                                teachers.map(teacher => <option key={teacher._id} value={teacher.name} className='uppercase' >{teacher.name}</option>)
+                                teachers && teachers.map(teacher => <option key={teacher._id} value={teacher.name} className='uppercase' >{teacher.name}</option>)
                             }
                         </select>
 

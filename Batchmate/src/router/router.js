@@ -12,7 +12,8 @@ import Developers from '../screens/developers/Developers.jsx';
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <Home />,
+        errorElement: <Home />
     },
     {
         path: '/login',
