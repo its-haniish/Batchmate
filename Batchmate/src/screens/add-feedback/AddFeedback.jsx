@@ -17,6 +17,7 @@ const AddFeedback = () => {
     const [rating, setRating] = useState(1);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [teachLoading, setTeachLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -61,7 +62,7 @@ const AddFeedback = () => {
     useEffect(() => {
 
         if (teachers === null) {
-            getTeachersList(dispatch, setLoading)
+            getTeachersList(dispatch, setTeachLoading)
         }
     }, [])
 
