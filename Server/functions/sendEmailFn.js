@@ -5,8 +5,8 @@ const sendEmailFn = async ({ email, subject, msg }) => {
         let mailTransporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "hanish870807@gmail.com",
-                pass: "bilaqrayxjlqdytg"
+                user: process.env.GMAIL,
+                pass: process.env.APP_PASS
             }
         });
 

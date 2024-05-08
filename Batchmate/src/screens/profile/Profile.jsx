@@ -8,11 +8,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineLogout } from "react-icons/md";
 import { removeCookie } from '../../utils/cookies';
-import { getUserDetails } from "../../utils/getUserDetails"
 
 const Profile = () => {
-    const [data, setData] = useState({})
-    const { isUserLoggedIn, token } = useSelector(state => state.authReducer)
+    const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const { image, name, email, rollNo } = useSelector(state => state.userDetailsReducer)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -20,8 +20,6 @@ const Profile = () => {
 
         if (!isUserLoggedIn) {
             navigate("/")
-        } else {
-            getUserDetails(token, setData)
         }
     }, [])
 
@@ -31,12 +29,12 @@ const Profile = () => {
             {/* <h1 className='text-4xl  px-2 my-4 font-extrabold'>Profile</h1> */}
             <div className='h-fit w-screen my-4 flex flex-row justify-around items-center'>
                 <div className='flex flex-col items-center justify-center'>
-                    <img src="/images/dummy-user.png" alt="" id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
+                    <img src={image !== "" ? image : "/images/dummy-user.png"} alt={image !== "" ? image : "/images/dummy-user.png"} id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
 
                     <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
                 </div>
                 <div className='text-center'>
-                    <h2 className='text-3xl font-extrabold'>{data?.name}</h2>
+                    <h2 className='text-3xl font-extrabold'>{name}</h2>
                     <h3 className='text-2xl font-bold text-gray-700'>Student</h3>
                 </div>
             </div>
@@ -53,7 +51,7 @@ const Profile = () => {
                 </div>
                 <div className='flex flex-row items-center gap-3'>
                     <h3 className='text-xl font-bold'>Roll no: </h3>
-                    <input type="number" name="" id="" value={data?.rollNo} placeholder='roll no.' readOnly />
+                    <input type="number" name="" id="" value={rollNo} placeholder='roll no.' readOnly />
                 </div>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>
@@ -61,7 +59,7 @@ const Profile = () => {
                 <hr />
                 <div className='flex flex-row items-center gap-3'>
                     <h3 className='text-xl font-bold'>Email: </h3>
-                    <textarea className='text-wrap w-max' type="email" name="" id="" value={data?.email} placeholder='college name..' readOnly />
+                    <textarea className='text-wrap w-max' type="email" name="" id="" value={email} placeholder='college name..' readOnly />
                 </div>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>

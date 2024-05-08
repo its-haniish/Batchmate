@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Teacher, { TeacherLoader } from '../../components/teacher/Teacher'
 import getTeachersList from '../../utils/getTeachersList'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AllTeachers = () => {
-  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const { teachers } = useSelector(state => state.allTeachersReducer)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    getTeachersList(setTeachers)
+    if (teachers === null) {
+      getTeachersList(dispatch, setLoading)
+    }
+
   }, [])
   return (
     <>
@@ -16,7 +22,7 @@ const AllTeachers = () => {
         <h2 className='text-3xl font-bold *:*:justify-center'>All Teachers</h2>
 
         {
-          teachers.length === 0 ?
+          loading ?
             <>
               <div className='w-auto h-3/6 py-2'>
                 <TeacherLoader />
@@ -37,11 +43,13 @@ const AllTeachers = () => {
                 <TeacherLoader />
               </div>
             </> :
-            teachers.map(teacher => (
-              <div className='w-auto h-3/6 py-2' key={teacher._id} >
-                <Teacher name={teacher.name} id={teacher._id} />
-              </div>
-            ))
+            teachers && teachers.length === 0 ?
+              <p className='text-[0.9rem] font-semibold font-Nunito text-center text-wrap w-full'>!! NO TEACHERS TO SHOW !!</p> :
+              teachers && teachers.map(teacher => (
+                <div className='w-auto h-3/6 py-2' key={teacher._id} >
+                  <Teacher name={teacher.name} id={teacher._id} />
+                </div>
+              ))
         }
       </div>
     </>

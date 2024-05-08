@@ -13,6 +13,20 @@ const autoLogin = async (isUserLoggedIn, dispatch) => {
 
         const { message } = result;
         if (message === "Auto login successful") {
+            const resp = await fetch(`${process.env.REACT_APP_BASE_URL}/get-user-info`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            const parsedResp = await resp.json();
+
+            dispatch({
+                type: 'saveUserData',
+                ...parsedResp
+            })
+
             dispatch({
                 type: "loginUser",
                 token
