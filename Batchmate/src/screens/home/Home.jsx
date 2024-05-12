@@ -3,14 +3,14 @@ import Navbar from '../../components/navbar/Navbar';
 import Feedback, { FeedbackLoader } from '../../components/feedback/Feedback';
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import Teacher, { TeacherLoader } from '../../components/teacher/Teacher';
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
 import autoLogin from '../../utils/autoLogin.js';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux"
 import { getLatestFeedbacks } from '../../utils/getLatestFeedbacks.js';
 import getPopularTeachers from "../../utils/getPopularTeachers.js";
-
+import { TiArrowRight } from "react-icons/ti";
 
 
 const Home = () => {
@@ -38,7 +38,10 @@ const Home = () => {
             <main className='h-full py-1'>
 
                 <section>
-                    <h2 className='text-left pl-2 pt-1 my-1 text-2xl font-bold font-Nunito'>Popular Teachers</h2>
+                    <div className='flex flex-row items-center justify-between px-2'>
+                    <h2 className='text-left pt-1 my-1 text-2xl font-bold font-Nunito'>Popular Teachers</h2>
+                    <NavLink to={'/teachers'} className='text-lg text-blue-400 flex flex-nowrap items-center gap-1'>view all <TiArrowRight fill='rgb(96 165 250)' color='rgb(96 165 250)' /></NavLink>
+                    </div>
 
                     <div className={`w-screen h-[45vh] overflow-x-scroll flex flex-no-wrap py-2 *:px-1 snap-mandatory snap-x`}>
                         {isTeachersLoading ?
