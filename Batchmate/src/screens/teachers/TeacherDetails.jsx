@@ -79,4 +79,58 @@ export const TeacherDetails = () => {
     )
 }
 
+
+export const TeacherDetailsLoader = () => {
+    var defaultFeedbacksCount = [0, 1, 2, 3]
+    return (
+        <>
+            <Navbar />
+            <div className='w-screen h-fit flex justify-start items-center'>
+                <div className='w-full h-fit overflow-visible p-2 flex flex-col justify-start gap-1 items-center'>
+
+                    <div className='w-full h-full mb-2 flex flex-col gap-2 justify-center'>
+                        <div className='bg-gray-200 animate-pulse p-1 h-[27vh] w-[70%] m-auto rounded-2xl '>
+                        </div>
+
+                        <div className='flex justify-between items-center w-full h-[12%]'>
+
+                            <p className='font-bold text-[20px] h-[5vh] bg-gray-200 animate-pulse w-[100%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>
+                            </p>
+
+                            <div className='flex justify-start items-center gap-1'>
+                            </div>
+
+                        </div>
+
+                        <div className='w-full h-fit *:text-gray-900 *:overflow-x-hidden *:text-ellipsis *:whitespace-nowrap'>
+                            <p className='h-[2vh] w-[80%] animate-pulse bg-gray-200 mb-1'></p>
+                            <p className='h-[2vh] w-[80%] animate-pulse bg-gray-200'></p>
+                        </div>
+
+                        {/* Additional details */}
+                        <p className='bg-orange-300 rounded-full h-[4vh] animate-pulse p-1 text-center text-[20px] text-gray-900 font-Nunito font-bold'>{
+                        }</p>
+                    </div>
+
+                </div>
+            </div>
+            {/* write a review */}
+            {
+                <div className='w-[95%] mx-auto h-[15vh] bg-gray-200 animate-pulse rounded-2xl py-2 overflow-visible'>
+                </div>
+            }
+
+            {/* others review */}
+            <div className='w-[95%] h-full rounded-2xl mx-auto overflow-visible my-2 flex flex-col justify-start items-center gap-2'>
+                {
+                    defaultFeedbacksCount.map(count => (
+                        <div className='w-[95%] h-[7vh] bg-gray-200 animate-pulse rounded-2xl mx-auto overflow-visible my-1'></div>
+                    ))
+                }
+            </div>
+
+        </>
+    )
+}
+
 export default TeacherDetails
