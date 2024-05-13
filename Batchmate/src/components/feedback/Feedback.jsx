@@ -2,6 +2,8 @@ import React from 'react'
 
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
+import { BiLike, BiSolidLike } from "react-icons/bi";
+import { GoShareAndroid } from "react-icons/go";
 
 const Feedback = ({ message, teacherName, teacherId, studentName, studentId, stars, time }) => {
     const text = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit dignissimos assumenda, optio blanditiis non est numquam exercitationem accusantium repellat, harum minima illo, at facilis iste pariatur laboriosam provident nulla. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit dignissimos assumenda, optio blanditiis non est numquam exercitationem accusantium repellat, harum minima illo, at facilis iste pariatur laboriosam provident nulla.";
@@ -10,8 +12,8 @@ const Feedback = ({ message, teacherName, teacherId, studentName, studentId, sta
     const date = new Date(time).toLocaleString()
     const starArray = Array.from({ length: stars }, (_, index) => index + 1);
     return (
-        <div className='bg-gray-100 shadow-md w-[68vw] mx-2 h-[100%] rounded-lg flex justify-start items-center flex-shrink-0 snap-center'>
-            <div className='w-full h-full py-[2px] px-2 flex flex-col justify-start gap-[1px] items-center'>
+        <div className='w-[68vw] mx-2 h-[100%] rounded-lg flex justify-start items-center flex-shrink-0 gap-1 snap-center'>
+            <div className='bg-gray-100 shadow-md  w-full h-full py-[2px] px-2 flex flex-col justify-start gap-[1px] items-center'>
 
                 {/* feedback sender details */}
                 <div className='flex justify-between items-center w-full h-[23%]1'>
@@ -50,6 +52,11 @@ const Feedback = ({ message, teacherName, teacherId, studentName, studentId, sta
                     <p className='text-black text-[10px] font-bold text-nowrap overflow-x-scroll'>{date}</p>
                 </div>
 
+            </div>
+            <div className='flex flex-col justify-start gap-4 items-center w-[10%] h-full'>
+                <BiLike size={24} />
+                <BiSolidLike size={24} fill='red' color='red'  />
+                <GoShareAndroid size={24} />
             </div>
         </div>
     )
