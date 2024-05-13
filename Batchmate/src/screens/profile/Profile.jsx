@@ -9,11 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineLogout } from "react-icons/md";
 import { removeCookie } from '../../utils/cookies';
 import { IoMdKey } from "react-icons/io";
-import { FaUserEdit } from "react-icons/fa";
 
 const Profile = () => {
     const { isUserLoggedIn, token } = useSelector(state => state.authReducer)
     const { image, name, email, rollNo } = useSelector(state => state.userDetailsReducer)
+    const [editMode, setEditMode] = useState(true);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -52,20 +52,20 @@ const Profile = () => {
             <div className='h-fit w-screen my-4 flex flex-row justify-around items-center'>
                 <div className='flex flex-col items-center justify-center'>
                     <img src={image !== "" ? image : "/images/dummy-user.png"} alt={image !== "" ? image : "/images/dummy-user.png"} id={styles.userImage} className='h-28 w-28 rounded-full bg-red-500 ' />
-
-                    <RiImageEditFill size={30} color='#fff' id={styles.editIcon} className='absolute' />
                 </div>
                 <div className='text-center'>
                     <h2 className='text-3xl font-extrabold'>{name}</h2>
                     <div className='-rotate-6 my-4 h-fit shadow-md bg-gray-200  *:text-black'>
-                        <h3 className='text-xl font-bold '>🔥 {'{num}'} Reviews</h3>
+                        <h3 className='text-xl font-bold '>🔥 {`{${20}}`} Reviews</h3>
                     </div>
                 </div>
             </div>
 
             <div className='flex flex-row justify-between items-center gap-3 px-2'>
-                <button className='flex flex-row justify-center w-full text-md gap-1 items-center px-3 py-1 bg-gray-800 rounded-xl text-white font-bold self-center'> Edit Profile</button>
-                <button className='flex flex-row justify-center w-full text-md gap-1 items-center px-3 py-1 bg-gray-800 rounded-xl text-white font-bold self-center'> Share Profile</button>
+                <button className='flex flex-row justify-center w-full text-md gap-1 items-center px-3 py-1 bg-gray-800 rounded-xl text-white font-bold self-center' onClick={() => setEditMode(true)}> Edit Profile</button>
+                <button className='flex flex-row justify-center w-full text-md gap-1 items-center px-3 py-1 bg-gray-800 rounded-xl text-white font-bold self-center' onClick={() => {
+                    toast.info("Feature coming soon!")
+                }}> Share Profile</button>
             </div>
             <div className='flex flex-col px-2 my-4 gap-2'>
                 <h2 className='text-3xl font-extrabold'>General</h2>
