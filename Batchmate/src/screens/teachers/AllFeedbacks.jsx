@@ -52,11 +52,7 @@ const AllFeedbacks = ({ message, teacherId, studentName, studentId, stars, time 
                     </div>
 
                 </div>
-                <div className='flex flex-col justify-start gap-4 items-center w-[10%] h-full'>
-                    <BiLike size={24} />
-                    <BiSolidLike size={24} fill='red' color='red' />
-                    <GoShareAndroid size={24} />
-                </div>
+                
             </div>
         </>
     )
