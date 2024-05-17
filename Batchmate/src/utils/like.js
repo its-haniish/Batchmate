@@ -1,6 +1,7 @@
 
 const likeFeedback = async (feedbackId, token, setLiked, setLikedList, userId) => {
     setLiked(true)
+    setLikedList(prev => [...prev, userId])
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/like`, {
         method: 'POST',
         headers: {
@@ -10,13 +11,12 @@ const likeFeedback = async (feedbackId, token, setLiked, setLikedList, userId) =
         body: JSON.stringify({ feedbackId })
     })
     const result = await response.json();
-    if (result.message === 'Liked') {
-        setLikedList(prev => [...prev, userId])
-    }
+    console.log(result);
 }
 
 const dislikeFeedback = async (feedbackId, token, setLiked, setLikedList, userId) => {
     setLiked(false)
+    setLikedList(prev => prev.filter(id => id !== userId))
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/dislike`, {
         method: 'POST',
         headers: {
@@ -26,9 +26,7 @@ const dislikeFeedback = async (feedbackId, token, setLiked, setLikedList, userId
         body: JSON.stringify({ feedbackId })
     })
     const result = await response.json();
-    if (result.message === 'Disliked') {
-        setLikedList(prev => prev.filter(id => id !== userId))
-    }
+    console.log(result);
 }
 
 export { likeFeedback, dislikeFeedback }
