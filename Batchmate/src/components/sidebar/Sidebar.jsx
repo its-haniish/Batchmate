@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { HiHome } from "react-icons/hi2";
 import { GiTeacher } from "react-icons/gi";
-import { FaCode, FaTimes, FaUser } from "react-icons/fa";
+import { FaCode, FaTimes, FaUser, FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux"
-import { CgLogIn } from "react-icons/cg";
 import { FaChevronRight } from "react-icons/fa6";
 
 const Sidebar = ({ closeSidebar }) => {
@@ -70,7 +69,7 @@ const Sidebar = ({ closeSidebar }) => {
                             {
                                 isUserLoggedIn ?
                                     <><FaUser size={18} fill='white' className='mr-1' />Profile</> :
-                                    <><CgLogIn size={18} fill='white' className='mr-1' />Sign In</>
+                                    <><FaUserPlus size={20} fill='white' color='white' className='mr-1' />Sign In</>
 
                             }
 
