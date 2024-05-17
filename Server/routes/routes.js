@@ -14,6 +14,8 @@ const getLatestFeedbacks = require("../controllers/getLatestFeedbacks.js")
 const getUserDetails = require("../controllers/getUserDetails.js")
 const getFeedbackCount = require("../controllers/getFeebackCount.js")
 const updatePasssword = require('../controllers/updatePassword.js');
+const like = require('../controllers/like.js');
+const dislike = require('../controllers/dislike.js');
 
 // importing the middlewares 
 const authenticateToken = require("../middlewares/authenticateToken.js");
@@ -33,5 +35,7 @@ routes
     .post('/get-user-info', authenticateToken, getUserDetails)
     .post('/get-feedback-count', getFeedbackCount)
     .post('/update-password', updatePasssword)
+    .post('/like', authenticateToken, like)
+    .post('/dislike', authenticateToken, dislike)
 
 module.exports = routes;

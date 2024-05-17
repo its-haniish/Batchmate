@@ -1,6 +1,7 @@
 import { getCookie } from './cookies';
 
-const autoLogin = async (isUserLoggedIn, dispatch) => {
+const autoLogin = async (isUserLoggedIn, dispatch, setIsAutoLoginLoading) => {
+    setIsAutoLoginLoading(true)
     const token = getCookie("batchmate");
     if (!isUserLoggedIn && token !== null) {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auto-login`, {
@@ -21,7 +22,7 @@ const autoLogin = async (isUserLoggedIn, dispatch) => {
                 }
             })
             const parsedResp = await resp.json();
-
+            // console.log(parsedResp);
             dispatch({
                 type: 'saveUserData',
                 ...parsedResp
@@ -32,13 +33,16 @@ const autoLogin = async (isUserLoggedIn, dispatch) => {
                 token
             })
             console.log("User auto login success");
+            setIsAutoLoginLoading(false)
             return true
         } else {
             console.log("Try login manually.");
+            setIsAutoLoginLoading(false)
             return false
         }
 
     } else {
+        setIsAutoLoginLoading(false)
         return getCookie("batchmate") === null;
     }
 }

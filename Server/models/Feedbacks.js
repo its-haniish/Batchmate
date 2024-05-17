@@ -28,8 +28,12 @@ const feedbackSchema = new mongoose.Schema({
     time: {
         type: Number,
         required: true
+    },
+    likes: {
+        type: Array,
+        default: []
     }
-    
+
 });
 
 const Feedbacks = new mongoose.model('Feedbacks', feedbackSchema);

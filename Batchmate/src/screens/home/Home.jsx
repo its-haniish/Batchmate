@@ -18,6 +18,7 @@ const Home = () => {
     const [latestFeedbacks, setLatestFeedbacks] = useState([])
     const [isTeachersLoading, setIsTeachersLoading] = useState(false);
     const [isFeedbacksLoading, setIsFeedbacksLoading] = useState(false);
+    const [isAutoLoginLoading, setIsAutoLoginLoading] = useState(false);
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Home = () => {
     }, [])
 
     useLayoutEffect(() => {
-        autoLogin(isUserLoggedIn, dispatch)
+        autoLogin(isUserLoggedIn, dispatch, setIsAutoLoginLoading)
     }, [])
 
     return (
@@ -82,7 +83,7 @@ const Home = () => {
                                 latestFeedbacks.length === 0 ?
                                     <p className='w-full text-center font-normal font-Nunito'>!! THERE ARE NO FEEDBACKS TO SHOW !!</p> :
                                     latestFeedbacks?.map(feedback => {
-                                        const { message, teacherName, teacherId, studentName, studentId, stars, time, _id } = feedback
+                                        const { message, teacherName, teacherId, studentName, studentId, stars, time, _id, likes } = feedback
                                         return (
                                             <Feedback
                                                 key={_id}
@@ -93,7 +94,9 @@ const Home = () => {
                                                 studentName={studentName}
                                                 studentId={studentId}
                                                 stars={stars}
-                                                time={time} />
+                                                time={time}
+                                                likes={likes}
+                                                isAutoLoginLoading={isAutoLoginLoading} />
                                         )
                                     })
                         }

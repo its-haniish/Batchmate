@@ -1,20 +1,30 @@
-import React, { useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
 import { FaStar } from "react-icons/fa";
-import { FaStarHalf } from "react-icons/fa";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { GoShareAndroid } from "react-icons/go";
+import { useSelector } from 'react-redux';
+import { likeFeedback, dislikeFeedback } from '../../utils/like';
+import { toast } from 'react-toastify';
 
-const Feedback = ({ message, teacherName, studentName, stars, id }) => {
+const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoLoginLoading }) => {
+    const { _id } = useSelector(state => state.userDetailsReducer)
+    const { token, isUserLoggedIn } = useSelector(state => state.authReducer)
     const [liked, setLiked] = useState(false)
+    const [likedList, setLikedList] = useState([...likes])
 
     const starArray = Array.from({ length: stars }, (_, index) => index + 1);
 
-    const handleLikeFeedback = () => {
-        console.log(id, 'feedback liked');
-    }
-    const handleDislikeFeedback = () => {
-        console.log(id, 'feedback disliked');
+    useEffect(() => {
+        if (likedList.includes(_id)) {
+            setLiked(true)
+        }
+        if (!isUserLoggedIn) {
+            setLiked(false)
+        }
+    }, [isAutoLoginLoading])
+
+    const handleShare = () => {
+        toast.info('Coming soon...')
     }
 
     return (
@@ -56,18 +66,18 @@ const Feedback = ({ message, teacherName, studentName, stars, id }) => {
                     </div>
 
                     <div className='w-fit gap-1 flex justify-center items-center'>
-                        <div className='flex gap-2 items-center'>
+                        <button onClick={isUserLoggedIn ? () => liked ? dislikeFeedback(id, token, setLiked, setLikedList, _id) : likeFeedback(id, token, setLiked, setLikedList, _id) : () => toast.info("Login to like a feedback.")} className='bg-none flex gap-2 items-center'>
                             {
-                                liked ? <BiSolidLike size={18} fill='red' onClick={handleDislikeFeedback} /> : <BiLike size={18} onClick={handleLikeFeedback} />
+                                liked ? <BiSolidLike size={20} fill='red' /> : <BiLike size={20} />
                             }
-                            <p className='font-Nunito font-semibold text-sm mr-2'>20</p>
-                        </div>
-                        <GoShareAndroid size={18} fill='black' />
+                            <p className='font-Nunito font-semibold text-sm mr-2'>{likedList?.length || 0}</p>
+                        </button>
+                        <GoShareAndroid size={18} fill='black' onClick={handleShare} />
                     </div>
                 </div>
 
             </div>
-            
+
         </div>
     )
 }
