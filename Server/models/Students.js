@@ -19,6 +19,10 @@ const studentSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    liked: {
+        type: Array,
+        default: []
+    },
     password: {
         type: String,
         required: true

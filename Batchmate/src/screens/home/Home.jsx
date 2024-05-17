@@ -39,8 +39,8 @@ const Home = () => {
 
                 <section>
                     <div className='flex flex-row items-center justify-between px-2'>
-                    <h2 className='text-left pt-1 my-1 text-2xl font-bold font-Nunito'>Popular Teachers</h2>
-                    <NavLink to={'/teachers'} className='text-lg text-blue-400 flex flex-nowrap items-center gap-1'>view all <TiArrowRight fill='rgb(96 165 250)' color='rgb(96 165 250)' /></NavLink>
+                        <h2 className='text-left pt-1 my-1 text-2xl font-bold font-Nunito'>Popular Teachers</h2>
+                        <NavLink to={'/teachers'} className='text-lg text-blue-400 flex flex-nowrap items-center gap-1'>view all <TiArrowRight fill='rgb(96 165 250)' color='rgb(96 165 250)' /></NavLink>
                     </div>
 
                     <div className={`w-screen h-[45vh] overflow-x-scroll flex flex-no-wrap py-2 *:px-1 snap-mandatory snap-x`}>
@@ -86,6 +86,7 @@ const Home = () => {
                                         return (
                                             <Feedback
                                                 key={_id}
+                                                id={_id}
                                                 message={message}
                                                 teacherName={teacherName}
                                                 teacherId={teacherId}

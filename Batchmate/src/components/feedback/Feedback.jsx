@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { GoShareAndroid } from "react-icons/go";
 
-const Feedback = ({ message, teacherName, teacherId, studentName, studentId, stars, time }) => {
-    const text = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit dignissimos assumenda, optio blanditiis non est numquam exercitationem accusantium repellat, harum minima illo, at facilis iste pariatur laboriosam provident nulla. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos impedit dignissimos assumenda, optio blanditiis non est numquam exercitationem accusantium repellat, harum minima illo, at facilis iste pariatur laboriosam provident nulla.";
+const Feedback = ({ message, teacherName, studentName, stars, id }) => {
+    const [liked, setLiked] = useState(false)
 
-    const truncatedText = text.substring(0, 150); // Extract first 280 characters
-    const date = new Date(time).toLocaleString()
     const starArray = Array.from({ length: stars }, (_, index) => index + 1);
+
+    const handleLikeFeedback = () => {
+        console.log(id, 'feedback liked');
+    }
+    const handleDislikeFeedback = () => {
+        console.log(id, 'feedback disliked');
+    }
+
     return (
         <div className='w-[68vw] mx-2 h-[100%] rounded-lg flex justify-start items-center flex-shrink-0 gap-1 snap-center'>
             <div className='bg-gray-100 shadow-md  w-full h-full py-[2px] px-2 flex flex-col justify-start gap-[1px] items-center'>
@@ -45,11 +51,19 @@ const Feedback = ({ message, teacherName, teacherId, studentName, studentId, sta
                         <div className='flex justify-center items-center'>
                             <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-[20px] h-[20px] rounded-[50%] border border-black' />
                         </div>
-                        <p className='font-bold text-[14px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>{teacherName}</p>
+                        <p className='font-bold text-[14px] w-[90%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>{teacherName}</p>
 
                     </div>
 
-                    <p className='text-black text-[10px] font-bold text-nowrap overflow-x-scroll'>{date}</p>
+                    <div className='w-fit gap-1 flex justify-center items-center'>
+                        <div className='flex gap-2 items-center'>
+                            {
+                                liked ? <BiSolidLike size={18} fill='red' onClick={handleDislikeFeedback} /> : <BiLike size={18} onClick={handleLikeFeedback} />
+                            }
+                            <p className='font-Nunito font-semibold text-sm mr-2'>20</p>
+                        </div>
+                        <GoShareAndroid size={18} fill='black' />
+                    </div>
                 </div>
 
             </div>
