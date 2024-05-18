@@ -54,7 +54,7 @@ const Profile = () => {
             {editMode ?
                 <>
 
-                    <button onClick={() => setEditMode(false)} className="absolute top-14 left-3">
+                    <button onClick={() => setEditMode(false)} className="absolute top-16 left-3">
                         <IoArrowBack size={30} color='black' />
                     </button>
 
