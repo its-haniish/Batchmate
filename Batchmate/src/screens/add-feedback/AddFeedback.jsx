@@ -20,6 +20,7 @@ const AddFeedback = () => {
     const [teachLoading, setTeachLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const limit = 400;
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -89,8 +90,13 @@ const AddFeedback = () => {
 
                     <Rating style={{ maxWidth: 230, filter: 'drop-shadow(0 0 2px orange)' }} value={rating} onChange={setRating} itemStyles={{ itemShapes: StickerStar, activeFillColor: '#ffb700', inactiveFillColor: '#fbf990' }} />
 
-                    <textarea className='bg-gray-200 rounded-xl p-2 focus:outline-none focus:border-none shadow-md hover:bg-gray-300 transition-colors' cols="30" rows="7" placeholder='I would like to say...' name="message" onChange={handleChange}
+                    <textarea className='bg-gray-200 w-full rounded-xl p-2 focus:outline-none focus:border-none shadow-md hover:bg-gray-300 transition-colors' cols="30" rows="7" placeholder='I would like to say...' name="message" onChange={handleChange} maxLength={limit}
                     ></textarea>
+                    <p className='absolute bottom-56 right-2 text-right font-bold'>
+                        {
+                            formData.message?.length >= limit - 20 ? <span className='text-red-500'> {formData.message.length} / {limit} </span> : <span className=''> {formData.message?.length || 0} / {limit} </span>
+                        }
+                    </p>
 
                     <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' type='submit' onClick={handleSubmit}>
                         {!loading ? "SUBMIT" : <RotatingLines height="30" width="30" strokeColor='white' />}

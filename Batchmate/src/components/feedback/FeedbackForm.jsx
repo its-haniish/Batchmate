@@ -14,6 +14,7 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
+    const limit = 400;
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -56,7 +57,13 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
             <h2 className='text-3xl font-bold ' >Write Feedback 👏</h2>
             <Rating style={{ maxWidth: 230, filter: 'drop-shadow(0 0 2px orange)' }} value={rating} onChange={setRating} itemStyles={{ itemShapes: StickerStar, activeFillColor: '#ffb700', inactiveFillColor: '#fbf990' }} />
             <textarea className='bg-gray-200 rounded-xl p-2 focus:outline-none focus:border-none shadow-md hover:bg-gray-300 transition-colors' cols="30" rows="7" placeholder='I would like to say...'
-                name="message" onChange={handleChange}></textarea>
+                name="message" maxLength={limit} onChange={handleChange}></textarea>
+
+            <p className='text-right font-bold'>
+                {
+                    formData.message?.length >= limit - 20 ? <span className='text-red-500'> {formData.message.length} / {limit} </span> : <span className=''> {formData.message?.length || 0} / {limit} </span>
+                }
+            </p>
 
             <button className='bg-black rounded-xl p-3 px-5 text-white shadow-md font-bold flex justify-center items-center hover:shadow-xl hover:transition-all' type="submit">
                 {
