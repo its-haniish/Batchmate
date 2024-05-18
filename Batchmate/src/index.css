@@ -8,8 +8,8 @@
   overflow-x: hidden;
   box-sizing: border-box;
   color: black;
+  font-family: "Nunito", sans-serif;
   /* font-family: "Nunito", sans-serif; */
-  font-family:  Helvetica, Arial, sans-serif;
 }
 *::-webkit-scrollbar{
   display: none;

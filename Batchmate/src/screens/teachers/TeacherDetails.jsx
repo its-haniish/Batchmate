@@ -11,6 +11,7 @@ import StarRating from '../../components/stars/StarRating';
 
 export const TeacherDetails = () => {
     const { id } = useParams();
+    const [isAutoLoginLoading, setIsAutoLoginLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [teachInfo, setTeachInfo] = useState([]);
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
@@ -18,7 +19,7 @@ export const TeacherDetails = () => {
 
     useEffect(() => {
         getTeacherDetails(id, setTeachInfo, setLoading)
-        autoLogin(isUserLoggedIn, dispatch)
+        autoLogin(isUserLoggedIn, dispatch, setIsAutoLoginLoading)
     }, [])
     return (
         <>
@@ -126,7 +127,7 @@ export const TeacherDetailsLoader = () => {
             <div className='w-[95%] h-full rounded-2xl mx-auto overflow-visible my-2 flex flex-col justify-start items-center gap-2'>
                 {
                     defaultFeedbacksCount.map(count => (
-                        <div className='w-[95%] h-[7vh] bg-gray-200 animate-pulse rounded-2xl mx-auto overflow-visible my-1'></div>
+                        <div key={count} className='w-[95%] h-[7vh] bg-gray-200 animate-pulse rounded-2xl mx-auto overflow-visible my-1'></div>
                     ))
                 }
             </div>

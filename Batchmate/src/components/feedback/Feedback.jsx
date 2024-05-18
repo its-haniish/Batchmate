@@ -21,7 +21,7 @@ const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoL
         if (!isUserLoggedIn) {
             setLiked(false)
         }
-    }, [isAutoLoginLoading])
+    }, [isAutoLoginLoading, isUserLoggedIn])
 
     const handleShare = () => {
         toast.info('Coming soon...')

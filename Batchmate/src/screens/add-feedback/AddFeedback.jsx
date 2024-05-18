@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import { Rating, StickerStar } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -8,11 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from "react-loader-spinner"
 import { useNavigate } from "react-router-dom"
 import getTeachersList from "../../utils/getTeachersList.js"
-import autoLogin from '../../utils/autoLogin.js';
 
 
 const AddFeedback = () => {
-    const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
+    const { token } = useSelector(state => state.authReducer);
     const { teachers } = useSelector(state => state.allTeachersReducer);
     const [rating, setRating] = useState(1);
     const [formData, setFormData] = useState({});
@@ -20,7 +19,7 @@ const AddFeedback = () => {
     const [teachLoading, setTeachLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const limit = 400;
+    const limit = 150;
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 

@@ -14,7 +14,7 @@ export const FeedbackForm = ({ teacherName, teacherId }) => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
-    const limit = 400;
+    const limit = 150;
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
