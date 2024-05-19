@@ -122,7 +122,7 @@ const Profile = () => {
                     type: 'updateImage',
                     image: `${_id}.${imageExtension}`
                 })
-                toast.success("Profile updated successfully.")
+                toast.success("Profile updated successfully. Restart app if image is not updated.")
             } else {
                 toast.error("Error uploading image. Please try again.")
             }
