@@ -72,6 +72,10 @@ const Profile = () => {
                         uploadImage(file)
                     } else {
                         if (result.message === "Profile updated successfully.") {
+                            dispatch({
+                                type: 'updateName',
+                                name
+                            })
                             setLoading(false)
                             setEditMode(false)
                             return toast.success("Profile updated successfully.")
@@ -103,6 +107,10 @@ const Profile = () => {
             });
             const result = await response.json(); // Parse the response JSON
             if (result.message === "Image uploaded successfully.") {
+                dispatch({
+                    type: 'updateImage',
+                    image: file.name
+                })
                 toast.success("Profile updated successfully.")
                 setLoading(false)
                 return setEditMode(false)

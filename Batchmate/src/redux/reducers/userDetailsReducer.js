@@ -17,8 +17,10 @@ export const userDetailsReducer = createReducer(initialState, (builder) => {
             state.image = action.image;
             state.rollNo = action.rollNo;
         })
-        .addCase('updateUserData', (state, action) => {
+        .addCase('updateName', (state, action) => {
             state.name = action.name;
+        })
+        .addCase('updateImage', (state, action) => {
             state.image = action.image;
         })
         .addCase('deleteUserData', (state) => {
