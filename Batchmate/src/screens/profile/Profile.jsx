@@ -95,6 +95,8 @@ const Profile = () => {
                     uploadImage(file)
                 }
             }
+            setLoading(false)
+            setEditMode(false)
 
         } catch (error) {
             setEditMode(false)
