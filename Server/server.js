@@ -22,7 +22,7 @@ app.get('/ping', (req, res) => {
 // Function to ping the server periodically
 const startSelfPing = () => {
     console.log('Starting self-ping function...');
-    const interval = 14 * 60 * 1000; // 14 minutes in milliseconds
+    const interval = 1 * 60 * 1000; // 14 minutes in milliseconds
 
     const pingServer = async () => {
         try {
