@@ -40,7 +40,7 @@ const Teacher = ({ name, id }) => {
                     <p><span className='font-bold'>College:</span> GDGP Hisar</p>
                 </div>
 
-                <p className='bg-red-200 rounded-full p-1 text-center text-[20px] text-gray-900 font-bold font-Nunito w-full'>{data.feedbacks?.length || 0} Reviews</p>
+                <p className='bg-red-200 rounded-full p-1 text-center text-[20px] text-gray-900 font-bold font-Nunito w-full'>{data.feedbacks?.length || 0} Feedbacks</p>
                 <p className='bg-orange-300 rounded-full p-1 text-center text-[20px] text-gray-900 font-Nunito font-bold w-full'>More Details</p>
 
             </div>
