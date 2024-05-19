@@ -57,7 +57,7 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
                 <div className='flex justify-between items-center w-full h-[23%]1'>
 
                     <div className='flex justify-start items-center gap-1'>
-                        <div className='w-[22px] h-[22px] flex justify-center items-center'>
+                        <div className='w-[22px] h-[22px] flex justify-center items-center aspect-square'>
                             <img src={studentImage ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}` : "/images/dummy-user.png"} alt="user-image" className='w-[20px] h-[20px] rounded-[50%]' />
                         </div>
                         <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap'>{studentName}</p>
@@ -81,7 +81,7 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
 
                     <div className='flex justify-start items-center gap-1' onClick={() => navigate(`/teacher-details/${teacherId}`)}>
                         <div className='flex justify-center items-center'>
-                            <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-[20px] h-[20px] rounded-[50%] border border-black' />
+                            <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-[20px] h-[20px] rounded-[50%] border border-black aspect-square' />
                         </div>
                         <p className='font-bold text-[14px] w-[90%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>{teacherName}</p>
 
