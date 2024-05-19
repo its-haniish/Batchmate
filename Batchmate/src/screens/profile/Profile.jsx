@@ -17,7 +17,7 @@ import './Profile.css';
 
 const Profile = () => {
     const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
-    const { image, name, email, rollNo, feedbacks } = useSelector(state => state.userDetailsReducer);
+    const { image, name, email, rollNo, feedbacks, _id } = useSelector(state => state.userDetailsReducer);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null)
@@ -54,38 +54,48 @@ const Profile = () => {
 
     const handleUpdateProfile = async () => {
         setLoading(true)
-        const { name } = data;
 
         try {
-            await fetch(`${process.env.REACT_APP_BASE_URL}/update-user-info`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ name })
-            })
-                .then(res => res.json())
-                .then(result => {
-                    console.log(result.message)
-                    if (file !== null) {
-                        uploadImage(file)
-                    } else {
+
+            if (data.name !== name) {
+                await fetch(`${process.env.REACT_APP_BASE_URL}/update-user-info`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name: data.name })
+                })
+                    .then(res => res.json())
+                    .then(result => {
+
                         if (result.message === "Profile updated successfully.") {
                             dispatch({
                                 type: 'updateName',
-                                name
+                                name: data.name
                             })
-                            setLoading(false)
-                            setEditMode(false)
-                            return toast.success("Profile updated successfully.")
+                            if (file !== null) {
+                                uploadImage(file)
+                            } else {
+                                toast.success("Profile updated successfully.")
+                            }
+                        } else {
+                            if (file !== null) {
+                                uploadImage(file)
+                            } else {
+                                toast.error("Error updating profile. Please try again.")
+                            }
                         }
-                        else {
-                            setLoading(false)
-                            return toast.error("Error updating profile")
-                        }
-                    }
-                })
+                        setLoading(false)
+                        setEditMode(false)
+
+                    })
+            } else {
+                if (file !== null) {
+                    uploadImage(file)
+                }
+            }
+
         } catch (error) {
             setEditMode(false)
             setLoading(false)
@@ -107,20 +117,20 @@ const Profile = () => {
             });
             const result = await response.json(); // Parse the response JSON
             if (result.message === "Image uploaded successfully.") {
+                const imageExtension = file.name.split('.').pop();
                 dispatch({
                     type: 'updateImage',
-                    image: file.name
+                    image: `${_id}.${imageExtension}`
                 })
                 toast.success("Profile updated successfully.")
-                setLoading(false)
-                return setEditMode(false)
+            } else {
+                toast.error("Error uploading image. Please try again.")
             }
-            else {
-                setLoading(false)
-                return toast.error("Error updating profile")
-            }
+            setLoading(false)
+            setEditMode(false)
         } catch (error) {
             setLoading(false)
+            toast.error("Error uploading image. Please try again.")
             console.error("Error:", error); // Log any errors that occur
         }
 
@@ -154,7 +164,7 @@ const Profile = () => {
                         <div className='flex flex-col gap-4 justify-start items-center mt-5'>
 
                             <div className='img-wrapper'>
-                                <img src={data?.image === "" ? "/images/dummy-user.png" : `${process.env.REACT_APP_BASE_URL}/images/${data?.image}`} alt="profile picture" />
+                                <img src={data?.image === "" ? "/images/dummy-user.png" : data.image !== image ? data.image : `${process.env.REACT_APP_BASE_URL}/images/${data?.image}`} alt="profile picture" />
                                 <div className='input-wrapper'>
                                     <input type="file" name="profile-pic" id="profile-pic" onChange={handleFileChange} />
                                     <RiImageEditFill size={40} color='white' fill='white' />
@@ -179,7 +189,7 @@ const Profile = () => {
                 <>
                     <div className='h-fit w-screen my-4 pl-3 flex flex-row justify-around items-center mt-[6.5vh]'>
                         <div className='flex flex-col w-[30vw] relative items-center justify-center rounded-full'>
-                            <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-full w-full rounded-full bg-red-500`} alt={image !== "" ? image : "/images/dummy-user.png"} />
+                            <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-[30vw] overflow-hidden w-[30vw] rounded-[50%] bg-red-500`} alt={image !== "" ? image : "/images/dummy-user.png"} />
                         </div>
                         <div className='text-center w-[70vw] px-10 z-1'>
                             <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={data?.name || ""} placeholder='Your name' readOnly />

@@ -29,22 +29,15 @@ const saveImage = async (req, res) => {
                 const userId = req.user.id;
                 const newFileName = `${userId}.${req.file.originalname.split('.').pop()}`;
                 const newPath = path.join(imageFolderPath, newFileName);
-
                 fs.renameSync(req.file.path, newPath);
+                const result = await Students.updateOne({ _id: req.user.id }, { image: newFileName })
+                return res.status(200).json({ message: "Image uploaded successfully." });
 
-                await Students.updateOne({ _id: req.user.id }, { image: newFileName })
-                    .then(({ modifiedCount }) => {
-                        if (modifiedCount === 1) {
-                            return res.status(200).json({ message: "Image uploaded successfully." });
-                        } else {
-                            return res.status(500).json({ message: "Error uploading image" });
-                        }
-                    });
             });
 
     } catch (error) {
         console.log(error);
-        return res.status(400).send("Error uploading image.");
+        return res.status(400).json({ message: "Internal Server Error", error });
     }
 }
 
