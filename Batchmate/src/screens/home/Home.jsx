@@ -36,7 +36,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <main className='h-full py-1 mt-[6vh]'>
+            <main className='h-full py-1 mt-[6vh] overflow-y-scroll'>
 
                 <section>
                     <div className='flex flex-row items-center justify-between px-2'>
@@ -69,7 +69,7 @@ const Home = () => {
                 <section className='py-2 overflow-y-scroll w-screen'>
                     <h2 className='w-screen pl-2 pt-1 my-1 text-2xl text-center font-bold font-Nunito'>Latest Feedbacks</h2>
 
-                    <div className='w-screen  flex flex-col items-center gap-2 justify-start overflow-x-scroll flex-no-wrap py-2 snap-x'>
+                    <div className='w-screen  flex flex-col items-center gap-2 justify-start overflow-y-scroll flex-no-wrap py-2 snap-x'>
                         {
                             isFeedbacksLoading ?
                                 <>
