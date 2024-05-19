@@ -15,11 +15,13 @@ root.render(
   <Provider store={store}>
     <ToastContainer
       position="top-center"
-      autoClose={2000}
+      autoClose={1500}
       hideProgressBar={false}
+      draggable={false}
+      pauseOnHover={false}
+      closeOnClick={true}
       newestOnTop={false}
       rtl={false}
-      draggable
       theme="light" />
     <RouterProvider router={router} />
   </Provider>
