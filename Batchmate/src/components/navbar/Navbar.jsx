@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 const Navbar = () => {
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
+    const { image } = useSelector(state => state.userDetailsReducer)
     const navigate = useNavigate()
 
     const openSidebar = () => {
@@ -47,10 +48,15 @@ const Navbar = () => {
 
             {/* Image wrapper */}
             <div className="font-Nunito font-semibold text-xl text-center flex justify-center items-center" >
-                <button className='bg-none border-none' onClick={handleProfileClick}>
+                <button className='bg-none border-none' onClick={handleProfileClick} style={{
+                    width: "fit-content",
+                    height: "fit-content",
+                    borderRadius: "50%",
+                    overflow: "hidden"
+                }}>
                     <img
                         className='w-[30px] h-[30px]'
-                        src="/images/dummy-user.png"
+                        src={image === "" ? "/images/dummy-user.png" : `${process.env.REACT_APP_BASE_URL}/images/${image}`}
                         alt="user-image" />
                 </button>
             </div>

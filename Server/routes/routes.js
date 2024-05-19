@@ -16,9 +16,12 @@ const getFeedbackCount = require("../controllers/getFeebackCount.js")
 const updatePasssword = require('../controllers/updatePassword.js');
 const like = require('../controllers/like.js');
 const dislike = require('../controllers/dislike.js');
+const saveImage = require('../controllers/saveImage.js');
+const updateUserInfo = require('../controllers/updateUserInfo.js');
 
 // importing the middlewares 
 const authenticateToken = require("../middlewares/authenticateToken.js");
+const upload = require("../middlewares/multerConfig.js");
 
 routes
     .post('/signup', signup)
@@ -37,5 +40,7 @@ routes
     .post('/update-password', updatePasssword)
     .post('/like', authenticateToken, like)
     .post('/dislike', authenticateToken, dislike)
+    .post('/save-image', authenticateToken, upload.single('image'), saveImage)
+    .post('/update-user-info', authenticateToken, updateUserInfo)
 
 module.exports = routes;
