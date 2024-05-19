@@ -29,7 +29,7 @@ const Sidebar = ({ closeSidebar }) => {
         <section ref={sidebarRef} className='w-[65%] overflow-hidden h-screen fixed left-0 top-0 bg-white shadow-lg z-50' >
             <button className='bg-none font-Nunito font-bold text-2xl mt-2 ml-2' onClick={closeSidebar}><FaTimes /></button>
 
-            <h2 className='shadow-text-white text-bg-gradient mt-3 text-2xl font-["Rubik_Scribble"] font-semibold not-italic text-center'>BATCHMATE</h2>
+            <h2 className='shadow-text-white text-bg-gradient mt-3 text-2xl font-["Rubik_Scribble"] font-semibold not-italic text-center' onClick={() => navigate("/")}>BATCHMATE</h2>
             <hr className='my-3 w-full border-b-2 border-teal-900 rounded-xl' />
 
             <ul className='w-full h-[80%] flex flex-col justify-between'>

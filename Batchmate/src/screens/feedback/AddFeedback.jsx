@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/navbar/Navbar';
+import Navbar from '../../components/navbar/Navbar.jsx';
 import { Rating, StickerStar } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { useDispatch, useSelector } from "react-redux"
@@ -69,7 +69,7 @@ const AddFeedback = () => {
     return (
         <>
             <Navbar />
-            <div className='flex flex-col items-center justify-center h-screen w-screen mt-[6vh]'>
+            <div className='flex flex-col items-center justify-center h-fit w-screen mt-[6vh]'>
                 <form action="" className='flex flex-col gap-5 items-start h-full justify-start mt-4 w-full *:w-[95%] *:self-center' onSubmit={handleSubmit}>
 
                     <h2 className='text-3xl font-bold text-center'>Write Feedback 👏</h2>

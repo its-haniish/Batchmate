@@ -195,9 +195,9 @@ const Profile = () => {
                         </div>
                         <div className='text-center w-[70vw] px-10 z-1'>
                             <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={data?.name || ""} placeholder='Your name' readOnly />
-                            <div className='-rotate-6 mb-4 -mt-4 h-fit shadow-md bg-gray-200  *:text-black'>
+                            <button className='-rotate-6 mb-4 -mt-4 h-fit shadow-md bg-gray-200  *:text-black' onClick={() => navigate('/feedbacks')}>
                                 <h3 className='text-xl font-bold '>🔥 {`{${feedbacks.length || 0}}`} Reviews</h3>
-                            </div>
+                            </button>
                         </div>
                     </div>
 
@@ -213,7 +213,7 @@ const Profile = () => {
                         <hr />
                         <div className='flex flex-row items-center gap-3'>
                             <h3 className='text-xl font-bold'>College: </h3>
-                            <textarea className='text-wrap outline-none border-none' type="text" value={'Guru Daksh Government Polytechnic'} placeholder='college name..' draggable="false" style={{ resize: "none" }} readOnly />
+                            <textarea className='text-wrap outline-none border-none w-[50vw]' type="text" value={'Guru Daksh Government Polytechnic'} placeholder='college name..' draggable="false" style={{ resize: "none" }} readOnly />
                         </div>
                         <div className='flex flex-row items-center gap-3'>
                             <h3 className='text-xl font-bold'>Branch: </h3>

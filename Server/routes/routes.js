@@ -18,6 +18,8 @@ const like = require('../controllers/like.js');
 const dislike = require('../controllers/dislike.js');
 const saveImage = require('../controllers/saveImage.js');
 const updateUserInfo = require('../controllers/updateUserInfo.js');
+const getFeedbackById = require('../controllers/getFeedbackById.js');
+const getStudentImageById = require('../controllers/getStudentImageById.js');
 
 // importing the middlewares 
 const authenticateToken = require("../middlewares/authenticateToken.js");
@@ -42,5 +44,7 @@ routes
     .post('/dislike', authenticateToken, dislike)
     .post('/save-image', authenticateToken, upload.single('image'), saveImage)
     .post('/update-user-info', authenticateToken, updateUserInfo)
+    .post('/get-feedback-by-id', getFeedbackById)
+    .post('/get-student-image-by-id', getStudentImageById)
 
 module.exports = routes;

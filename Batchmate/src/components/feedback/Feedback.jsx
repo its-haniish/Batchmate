@@ -5,22 +5,44 @@ import { GoShareAndroid } from "react-icons/go";
 import { useSelector } from 'react-redux';
 import { likeFeedback, dislikeFeedback } from '../../utils/like';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoLoginLoading }) => {
+const Feedback = ({ message, teacherName, studentId, studentName, stars, id, likes, isAutoLoginLoading, teacherId }) => {
     const { _id } = useSelector(state => state.userDetailsReducer)
     const { token, isUserLoggedIn } = useSelector(state => state.authReducer)
     const [liked, setLiked] = useState(false)
     const [likedList, setLikedList] = useState([...likes])
-
+    const [studentImage, setStudentImage] = useState(null)
     const starArray = Array.from({ length: stars }, (_, index) => index + 1);
+    const navigate = useNavigate();
+    const getStudentImageById = async (id) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/get-student-image-by-id`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id })
+            })
+            const data = await response.json();
+            return data.image;
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
     useEffect(() => {
         if (likedList.includes(_id)) {
             setLiked(true)
         }
+
         if (!isUserLoggedIn) {
             setLiked(false)
         }
+
+        getStudentImageById(studentId).then(data => setStudentImage(data))
+
     }, [isAutoLoginLoading, isUserLoggedIn])
 
     const handleShare = () => {
@@ -36,7 +58,7 @@ const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoL
 
                     <div className='flex justify-start items-center gap-1'>
                         <div className='w-[22px] h-[22px] flex justify-center items-center'>
-                            <img src="/images/dummy-user.png" alt="user-image" className='w-[20px] h-[20px] rounded-[50%]' />
+                            <img src={studentImage ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}` : "/images/dummy-user.png"} alt="user-image" className='w-[20px] h-[20px] rounded-[50%]' />
                         </div>
                         <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap'>{studentName}</p>
                     </div>
@@ -57,7 +79,7 @@ const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoL
                 {/* feedback target details */}
                 <div className='flex justify-between items-center w-full h-[18%] py-1'>
 
-                    <div className='flex justify-start items-center gap-1'>
+                    <div className='flex justify-start items-center gap-1' onClick={() => navigate(`/teacher-details/${teacherId}`)}>
                         <div className='flex justify-center items-center'>
                             <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-[20px] h-[20px] rounded-[50%] border border-black' />
                         </div>

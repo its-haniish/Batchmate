@@ -3,7 +3,7 @@ import FeedbackForm from '../../components/feedback/FeedbackForm';
 import Navbar from '../../components/navbar/Navbar';
 import { useParams } from 'react-router-dom';
 import { getTeacherDetails } from "../../utils/getTeacherInfo"
-import AllFeedbacks from './AllFeedbacks';
+import Feedback from '../../components/feedback/Feedback';
 import { useDispatch, useSelector } from "react-redux"
 import autoLogin from '../../utils/autoLogin';
 import calculateAverageStars from "../../utils/calculateAverageStars";
@@ -72,9 +72,23 @@ export const TeacherDetails = () => {
                 <div className='w-full h-full bg-gray-50 rounded-2xl py-2 overflow-visible my-2 flex flex-col justify-start items-center gap-5'>
                     {
                         teachInfo.feedbacks?.length === 0 ? <p className='font-bold font-Nunito text-lg text-center'>!! No Feedbacks Found !!</p> :
-                            teachInfo.feedbacks?.map(feedback => (
-                                <AllFeedbacks key={feedback._id} message={feedback?.message} studentName={feedback?.studentName} stars={feedback?.stars} time={feedback?.time} />
-                            ))
+                            teachInfo.feedbacks?.map(feedback => {
+                                const { message, teacherName, teacherId, studentName, studentId, stars, time, _id, likes } = feedback
+                                return (
+                                    <Feedback
+                                        key={_id}
+                                        id={_id}
+                                        message={message}
+                                        teacherName={teacherName}
+                                        teacherId={teacherId}
+                                        studentName={studentName}
+                                        studentId={studentId}
+                                        stars={stars}
+                                        time={time}
+                                        likes={likes}
+                                        isAutoLoginLoading={isAutoLoginLoading} />
+                                )
+                            })
                     }
                 </div>
             </>}

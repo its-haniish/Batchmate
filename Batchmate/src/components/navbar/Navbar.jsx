@@ -42,7 +42,7 @@ const Navbar = () => {
             </div> */}
 
             <div className='bg-none flex justify-center items-center w-[60vw] relative  my-1'>
-                <h1 className='shadow-text-white text-bg-gradient text-xl font-["Rubik_Scribble"] font-semibold not-italic text-center'>BATCHMATE</h1>
+                <h1 className='shadow-text-white text-bg-gradient text-xl font-["Rubik_Scribble"] font-semibold not-italic text-center' onClick={() => navigate('/')}>BATCHMATE</h1>
             </div>
 
             {/* Image wrapper */}
