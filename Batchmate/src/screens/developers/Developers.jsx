@@ -6,7 +6,7 @@ const Developers = () => {
     return (
         <>
             <Navbar />
-            <h1 className='text-2xl p-1 font-extrabold text-center bg-orange-400 rounded-3xl m-3 shadow-md mt-[6.5vh]'>Meet Our Team</h1>
+            <h1 className='text-2xl p-1 font-extrabold text-center bg-orange-400 rounded-3xl m-3 shadow-md mt-[7vh]'>Meet Our Team</h1>
             <div className='w-full h-[85vh] flex flex-col flex-wrap  gap-1 justify-start items-center overflow-hidden'>
                 <DevelopersData name="HANISH" role="Developer" insta="its_haniish" linkedin="its-hanish" twitter="its_haniish" />
                 <DevelopersData name="NAMAN" role="Developer" insta="pankha.hu" linkedin="programmerxd" twitter="dotpxd" />
