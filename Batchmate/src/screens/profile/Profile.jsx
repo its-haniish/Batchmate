@@ -17,7 +17,7 @@ import './Profile.css';
 
 const Profile = () => {
     const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
-    const { image, name, email, rollNo } = useSelector(state => state.userDetailsReducer);
+    const { image, name, email, rollNo, feedbacks } = useSelector(state => state.userDetailsReducer);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null)
@@ -147,9 +147,9 @@ const Profile = () => {
                         <IoArrowBack size={30} color='black' />
                     </button>
 
-                    <div className='h-fit w-screen'>
+                    <div className='h-fit w-screen mt-[6vh]'>
 
-                        <h1 className='w-full text-center text-3xl font-bold mt-4'>Edit Profile</h1>
+                        <h1 className='w-full text-center text-3xl font-bold mt-4 '>Edit Profile</h1>
 
                         <div className='flex flex-col gap-4 justify-start items-center mt-5'>
 
@@ -177,14 +177,14 @@ const Profile = () => {
                 </>
                 :
                 <>
-                    <div className='h-fit w-screen my-4 pl-3 flex flex-row justify-around items-center'>
+                    <div className='h-fit w-screen my-4 pl-3 flex flex-row justify-around items-center mt-[6.5vh]'>
                         <div className='flex flex-col w-[30vw] relative items-center justify-center rounded-full'>
                             <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-full w-full rounded-full bg-red-500`} alt={image !== "" ? image : "/images/dummy-user.png"} />
                         </div>
-                        <div className='text-center w-[70vw] px-10'>
+                        <div className='text-center w-[70vw] px-10 z-1'>
                             <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={data?.name || ""} placeholder='Your name' readOnly />
                             <div className='-rotate-6 mb-4 -mt-4 h-fit shadow-md bg-gray-200  *:text-black'>
-                                <h3 className='text-xl font-bold '>🔥 {`{${20}}`} Reviews</h3>
+                                <h3 className='text-xl font-bold '>🔥 {`{${feedbacks.length || 0}}`} Reviews</h3>
                             </div>
                         </div>
                     </div>
@@ -197,11 +197,11 @@ const Profile = () => {
                     </div>
 
                     <div className='flex flex-col px-2 my-4 gap-2'>
-                        <h2 className='text-3xl font-extrabold'>General</h2>
+                        <h2 className='text-3xl font-extrabold overflow-hidden'>General</h2>
                         <hr />
                         <div className='flex flex-row items-center gap-3'>
                             <h3 className='text-xl font-bold'>College: </h3>
-                            <textarea className='text-wrap outline-none border-none' type="text" value={'Guru Daksh Government Polytechnic'} placeholder='college name..' readOnly />
+                            <textarea className='text-wrap outline-none border-none' type="text" value={'Guru Daksh Government Polytechnic'} placeholder='college name..' draggable="false" style={{ resize: "none" }} readOnly />
                         </div>
                         <div className='flex flex-row items-center gap-3'>
                             <h3 className='text-xl font-bold'>Branch: </h3>
@@ -214,7 +214,7 @@ const Profile = () => {
                     </div>
 
                     <div className='flex flex-col px-2 my-4 gap-2'>
-                        <h2 className='text-3xl font-extrabold'>Privacy & Security</h2>
+                        <h2 className='text-3xl font-extrabold overflow-hidden'>Privacy & Security</h2>
                         <hr />
                         <div className='flex flex-row items-center gap-3'>
                             <h3 className='text-xl font-bold'>Email: </h3>
@@ -223,7 +223,7 @@ const Profile = () => {
                     </div>
 
                     <div className='flex flex-col px-2 my-4 gap-2'>
-                        <h2 className='text-3xl font-extrabold'>Danger Section</h2>
+                        <h2 className='text-3xl font-extrabold overflow-hidden'>Danger Section</h2>
                         <hr />
                         <div className='flex flex-wrap gap-2 justify-between'>
                             <div className='flex flex-row items-center gap-3'>

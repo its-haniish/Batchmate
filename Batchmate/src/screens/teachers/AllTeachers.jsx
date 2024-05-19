@@ -18,7 +18,7 @@ const AllTeachers = () => {
   return (
     <>
       <Navbar />
-      <div className='w-screen h-screen overflow-y-scroll justify-center items-center flex flex-wrap my-5 pb-9'>
+      <div className='w-screen h-screen overflow-y-scroll justify-center items-center flex flex-wrap my-5 pb-9 mt-[6.5vh]'>
         <h2 className='text-3xl font-bold *:*:justify-center'>All Teachers</h2>
 
         {

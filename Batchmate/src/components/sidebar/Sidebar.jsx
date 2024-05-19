@@ -26,7 +26,7 @@ const Sidebar = ({ closeSidebar }) => {
     }, [closeSidebar]);
 
     return (
-        <section ref={sidebarRef} className='w-[65%] overflow-hidden h-screen fixed left-0 top-0 bg-white z-10 shadow-lg'>
+        <section ref={sidebarRef} className='w-[65%] overflow-hidden h-screen fixed left-0 top-0 bg-white shadow-lg z-50' >
             <button className='bg-none font-Nunito font-bold text-2xl mt-2 ml-2' onClick={closeSidebar}><FaTimes /></button>
 
             <h2 className='shadow-text-white text-bg-gradient mt-3 text-2xl font-["Rubik_Scribble"] font-semibold not-italic text-center'>BATCHMATE</h2>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FcSearch } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import Sidebar from '../sidebar/Sidebar';
@@ -31,7 +30,7 @@ const Navbar = () => {
         }
     }
     return (
-        <nav className='w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow'>
+        <nav className='absolute top-0 right-0 left-0 w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow z-50'>
 
             {/* menu bar */}
             <button className='text-white' onClick={openSidebar}><HiMenu size="25px" /></button>

@@ -25,7 +25,7 @@ export const TeacherDetails = () => {
         <>
             <Navbar />
             {loading ? <TeacherDetailsLoader /> : <>
-                <div className='w-screen h-fit flex justify-start items-center'>
+                <div className='w-screen h-fit flex justify-start items-center mt-[6vh]'>
                     <div className='w-full h-fit overflow-visible p-2 flex flex-col justify-start gap-1 items-center'>
 
                         <div className='w-full h-full mb-2 flex flex-col gap-2 justify-center'>

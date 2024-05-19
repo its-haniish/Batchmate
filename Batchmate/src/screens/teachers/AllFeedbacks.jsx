@@ -52,7 +52,7 @@ const AllFeedbacks = ({ message, teacherId, studentName, studentId, stars, time 
                     </div>
 
                 </div>
-                
+
             </div>
         </>
     )

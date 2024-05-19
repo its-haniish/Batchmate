@@ -28,7 +28,7 @@ const Feedback = ({ message, teacherName, studentName, stars, id, likes, isAutoL
     }
 
     return (
-        <div className='w-[68vw] mx-2 h-[100%] rounded-lg flex justify-start items-center flex-shrink-0 gap-1 snap-center'>
+        <div className='w-[90%] mx-2 h-[22vh] rounded-lg flex justify-start items-center flex-shrink-0 gap-1 snap-center'>
             <div className='bg-gray-100 shadow-md  w-full h-full py-[2px] px-2 flex flex-col justify-start gap-[1px] items-center'>
 
                 {/* feedback sender details */}

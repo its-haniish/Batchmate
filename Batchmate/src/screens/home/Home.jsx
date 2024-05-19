@@ -36,7 +36,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <main className='h-full py-1'>
+            <main className='h-full py-1 mt-[6vh]'>
 
                 <section>
                     <div className='flex flex-row items-center justify-between px-2'>
@@ -66,10 +66,10 @@ const Home = () => {
 
                 </section>
 
-                <section className='py-2 h-[32vh]'>
-                    <h2 className='text-left pl-2 pt-1 my-1 text-2xl font-bold font-Nunito'>Latest Feedbacks</h2>
+                <section className='py-2 overflow-y-scroll w-screen'>
+                    <h2 className='w-screen pl-2 pt-1 my-1 text-2xl text-center font-bold font-Nunito'>Latest Feedbacks</h2>
 
-                    <div className='w-screen h-[24vh] overflow-x-scroll flex flex-no-wrap py-2 snap-x'>
+                    <div className='w-screen  flex flex-col items-center gap-2 justify-start overflow-x-scroll flex-no-wrap py-2 snap-x'>
                         {
                             isFeedbacksLoading ?
                                 <>
@@ -81,7 +81,7 @@ const Home = () => {
 
                                 </> :
                                 latestFeedbacks.length === 0 ?
-                                    <p className='w-full text-center font-normal font-Nunito'>!! THERE ARE NO FEEDBACKS TO SHOW !!</p> :
+                                    <p className='w-screen text-center font-normal font-Nunito'>!! THERE ARE NO FEEDBACKS TO SHOW !!</p> :
                                     latestFeedbacks?.map(feedback => {
                                         const { message, teacherName, teacherId, studentName, studentId, stars, time, _id, likes } = feedback
                                         return (
