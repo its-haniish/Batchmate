@@ -5,6 +5,7 @@ import { GiTeacher } from "react-icons/gi";
 import { FaCode, FaTimes, FaUser, FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux"
 import { FaChevronRight } from "react-icons/fa6";
+import { FaBug } from "react-icons/fa";
 
 const Sidebar = ({ closeSidebar }) => {
     const sidebarRef = useRef(null);
@@ -58,6 +59,12 @@ const Sidebar = ({ closeSidebar }) => {
                     <li className='text-center'>
                         <NavLink to="/developers" className="font-Nunito font-semibold text-xl text-center flex justify-start gap-2 px-4 items-center" >
                             <FaCode size={18} className='mr-1' />Devs
+                        </NavLink>
+                    </li>
+
+                    <li className='text-center'>
+                        <NavLink to="/report-bug" className="font-Nunito font-semibold text-xl text-center flex justify-start gap-2 px-4 items-center" >
+                            <FaBug size={18} className='mr-1' />Report a bug?
                         </NavLink>
                     </li>
                 </div>

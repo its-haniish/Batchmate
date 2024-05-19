@@ -9,6 +9,7 @@ import TeacherDetails from '../screens/teachers/TeacherDetails.jsx';
 import Profile from "../screens/profile/Profile.jsx"
 import Developers from '../screens/developers/Developers.jsx';
 import MyFeedbacks from '../screens/feedback/MyFeedbacks.jsx';
+import ReportBug from '../screens/reportBug/ReportBug.jsx';
 
 const router = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     {
         path: "/feedbacks",
         element: <MyFeedbacks />
+    },
+    {
+        path: "/report-bug",
+        element: <ReportBug />
     }
 ]);
 
