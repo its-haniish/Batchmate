@@ -58,7 +58,7 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
 
                     <div className='flex justify-start items-center gap-1'>
                         <div className='w-[22px] h-[22px] flex justify-center items-center aspect-square'>
-                            <img src={studentImage ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}` : "/images/dummy-user.png"} alt="user-image" className='w-[20px] h-[20px] rounded-[50%]' />
+                            <img src={studentImage ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}` : "/images/dummy-user.png"} alt="user-image" className='w-[20px] object-cover  h-[20px] rounded-[50%]' />
                         </div>
                         <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap'>{studentName}</p>
                     </div>
@@ -72,16 +72,16 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
                 </div>
 
                 {/* feedback message */}
-                <p className='h-[70%] w-full px-2 text-[14px] font-normal text-gray-900 text-justify line-clamp-5 text-ellipsis text-balance'>
+                <p className='h-[70%] w-full px-2 text-[14px] font-normal text-gray-900 text-left line-clamp-5 text-ellipsis text-balance'>
                     {message}
                 </p>
 
                 {/* feedback target details */}
                 <div className='flex justify-between items-center w-full h-[18%] py-1'>
 
-                    <div className='flex justify-start items-center gap-1' onClick={() => navigate(`/teacher-details/${teacherId}`)}>
-                        <div className='flex justify-center items-center'>
-                            <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-[20px] h-[20px] rounded-[50%] border border-black aspect-square' />
+                    <div className='flex justify-start items-center gap-1 overflow-hidden' onClick={() => navigate(`/teacher-details/${teacherId}`)}>
+                        <div className='flex justify-center items-center w-[22px] h-5 rounded-[50%] border border-black overflow-hidden'>
+                            <img src={`${process.env.REACT_APP_BASE_URL}/images/${teacherName}.png`} alt={teacherName} className='w-full h-full object-contain' />
                         </div>
                         <p className='font-bold text-[14px] w-[90%] overflow-x-hidden text-ellipsis whitespace-nowrap uppercase'>{teacherName}</p>
 

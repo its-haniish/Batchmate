@@ -191,7 +191,7 @@ const Profile = () => {
                 <>
                     <div className='h-fit w-screen my-4 pl-3 flex flex-row justify-around items-center mt-[6.5vh]'>
                         <div className='flex flex-col w-[30vw] relative items-center justify-center rounded-full'>
-                            <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-[30vw] overflow-hidden w-[30vw] rounded-[50%] bg-none`} alt={image !== "" ? image : "/images/dummy-user.png"} />
+                            <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-[30vw] overflow-hidden object-cover w-[30vw] rounded-[50%] bg-none`} alt={image !== "" ? image : "/images/dummy-user.png"} />
                         </div>
                         <div className='text-center w-[70vw] px-10 z-1'>
                             <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={data?.name || ""} placeholder='Your name' readOnly />
