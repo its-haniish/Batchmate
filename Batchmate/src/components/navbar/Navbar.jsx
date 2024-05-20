@@ -30,7 +30,7 @@ const Navbar = () => {
         }
     }
     return (
-        <nav className='absolute top-0 right-0 left-0 w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow z-50'>
+        <nav className='bg-white absolute top-0 right-0 left-0 w-[screen] h-[6vh] flex justify-between py-1 px-3 shadow z-50'>
 
             {/* menu bar */}
             <button className='text-white' onClick={openSidebar}><HiMenu size="25px" /></button>
