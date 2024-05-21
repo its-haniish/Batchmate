@@ -124,13 +124,13 @@ const ForgetPass = () => {
                                 onChange={handleChange}
                             />
 
-                            <div className='mt-4 flex-col justify-center items-center'>
+                            <div className='mt-4 flex-col h-fit justify-center items-center'>
 
-                                <div className='w-[74vw] h-[7vh] flex justify-center items-center relative'>
+                                <div className='w-[74vw] h-fit flex justify-center items-center relative'>
                                     <input
                                         type={showPass ? "text" : "password"}
                                         placeholder='**password**'
-                                        className='text-black h-fit font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                                        className='text-black h-fit my-1 font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                                         name='password'
                                         readOnly={loading}
                                         required
@@ -144,13 +144,13 @@ const ForgetPass = () => {
                                 </div>
                             </div>
 
-                            <div className='mt-4 flex-col justify-center items-center'>
+                            <div className='mt-4 flex-col h-fit justify-center items-center'>
 
-                                <div className='w-[74vw] h-[7vh] flex justify-center items-center relative'>
+                                <div className='w-[74vw] h-fit flex justify-center items-center relative'>
                                     <input
                                         type={showCPass ? "text" : "password"}
                                         placeholder='**confirm password**'
-                                        className='text-black font-bold h-fit rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                                        className='text-black font-bold h-fit my-1 rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                                         name='cpassword'
                                         required
                                         onChange={handleChange}
