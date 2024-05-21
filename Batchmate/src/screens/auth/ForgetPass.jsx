@@ -34,7 +34,6 @@ const ForgetPass = () => {
                 })
             })
             let result = await res.json();
-            console.log(result);
             if (result.message === "Message sent successfully") {
                 setIsOtpSent(true);
                 return setLoading(false)
@@ -72,7 +71,6 @@ const ForgetPass = () => {
                 })
             })
             let result = await res.json();
-            console.log(result.message);
             setLoading(false)
             if (result.message === "Password updated successfully.") {
                 toast.success(result.message);
