@@ -2,13 +2,16 @@ const sendEmailFn = require('../functions/sendEmailFn.js');
 const Students = require('../models/Students.js')
 
 const sendEmail = async (req, res) => {
-    const { email, subject, msg, type } = req.body;
+    const { email, subject, msg, type, rollNo } = req.body;
 
     try {
         const doesEmailExist = await Students.findOne({ email });
-        console.log(email);
-        console.log(doesEmailExist);
+
         if (type === 'signup') {
+            const doesRollNoExist = await Students.findOne({ rollNo });
+            if (doesRollNoExist) {
+                return res.status(409).json({ message: 'Id card already in use.' })
+            }
             if (doesEmailExist) {
                 return res.status(409).json({ message: 'Email is already in use.' })
             }

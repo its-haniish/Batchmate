@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { setCookie } from "../../utils/cookies.js"
 import { IoArrowBack } from "react-icons/io5";
+import { FaFileUpload } from "react-icons/fa";
 
 
 const Signup = () => {
@@ -14,8 +15,11 @@ const Signup = () => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "", cpassword: "" });
     const [otp] = useState(Math.floor(Math.random() * 1000000));
     const [isOtpSent, setIsOtpSent] = useState(false)
+    const [rollNo, setRollNo] = useState(null);
     const [showCurrPass, setShowCurrPass] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [idCard, setIdCard] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -48,6 +52,18 @@ const Signup = () => {
             return toast.error("Weak password.")
         }
 
+        if (idCard === null) {
+            setLoading(false)
+            return toast.error("Please select your ID card.")
+        }
+
+        const rollNo = await getRollNo(idCard);
+        if (rollNo === 'Try with diffrent image.' || rollNo === "An error occurred." || rollNo === "Select Id card.") {
+            setLoading(false)
+            return toast.error(rollNo);
+        } else {
+            setFormData({ ...formData, rollNo })
+        }
         try {
             let res = await fetch(`${process.env.REACT_APP_BASE_URL}/send-email`, {
                 method: "POST",
@@ -55,12 +71,12 @@ const Signup = () => {
                 body: JSON.stringify({
                     email, subject: "!!BATCHMATE VERIFICATION !!",
                     msg: `<h2>Your verification code is ${otp}</h2>`,
-                    type: "signup"
+                    type: "signup", rollNo
                 })
             })
             let result = await res.json();
-            console.log(result);
             if (result.message === "Message sent successfully") {
+                toast.success("Verification code sent to your email.")
                 setIsOtpSent(true);
                 return setLoading(false)
             }
@@ -123,13 +139,55 @@ const Signup = () => {
             return toast.error("Error creating account.")
         }
     }
+    const readFileAsUrl = async (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const getRollNo = async (image) => {
+        if (!image) {
+            return 'Select Image';
+        }
+        const formData = new FormData();  // Correctly initialize FormData
+        formData.append("image", image);
+
+        const url = 'https://qr-code-and-barcode-scanner.p.rapidapi.com/ScanCode';
+        const options = {
+            method: 'POST',
+            headers: {
+                'X-RapidAPI-Key': 'acfe366f2emshd92fb24e344a931p11a157jsna63d8165285a',
+                'X-RapidAPI-Host': 'qr-code-and-barcode-scanner.p.rapidapi.com'
+            },
+            body: formData
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();  // Parse the response as JSON
+
+            if (result.statusMessage === "ok" && result.data && result.data.length > 0) {
+                return result.data[0].allFields[0].fieldValue;
+            } else {
+                return 'Try with diffrent image.';
+            }
+        } catch (error) {
+            console.error(error);
+            return 'An error occurred.';
+        }
+    }
 
     return (
         <>
             <NavLink to="/login" className="absolute top-3 left-3">
                 <IoArrowBack size={30} color='black' />
             </NavLink>
-            <form className='w-screen h-screen flex flex-col justify-start items-center' onSubmit={isOtpSent ? handleSignup : handleSendOtp}>
+            <form className='w-screen h-fit flex flex-col justify-start items-center' onSubmit={isOtpSent ? handleSignup : handleSendOtp}>
                 <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >Batchmate</h1>
 
                 {/* input name */}
@@ -163,15 +221,35 @@ const Signup = () => {
                     readOnly
                 />
 
-                <input
-                    type="number"
-                    placeholder='Roll no.'
-                    className='mt-6 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
-                    onChange={handleChange}
-                    name='rollNo'
-                    readOnly={isOtpSent ? true : false}
-                    required
-                />
+                <div
+                    className={`mt-6 h-[27vh] text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black`}>
+
+                    <label htmlFor="rollNo" className='w-full text-left'>
+                        Select your ID card:
+                    </label>
+
+                    <div className='w-full h-[20vh] flex flex-col relative justify-center items-center  rounded-md overflow-hidden'>
+                        {idCard && <img src={selectedImage} alt="user id card" className='w-[150px] z-[2] h-fit' />}
+
+                        {!isOtpSent && <input
+                            type="file"
+                            placeholder='Roll no.'
+                            className='absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 cursor-pointer z-20'
+                            onChange={async e => {
+                                const base64String = await readFileAsUrl(e.target.files[0]);
+                                setSelectedImage(base64String);
+                                setIdCard(e.target.files[0])
+                            }}
+                            required
+                        />}
+                        <button type='button' className='z-10 absolute top-0 left-0 right-0 bottom-0 w-full flex justify-center items-center' >
+                            <FaFileUpload size={35} />
+                        </button>
+
+                    </div>
+
+
+                </div>
 
 
                 {/* password input wrapper */}
@@ -228,27 +306,29 @@ const Signup = () => {
                 {
                     isOtpSent &&
                     <div className='mt-6 flex-col justify-center items-center'>
-
+                        <p
+                            className=' rounded text-sm text-red-500 w-[70vw] h-fit text-wrap text-center mb-3'
+                        >Verification code is sent to your mail. Dont't forget to check the spam folder.</p>
                         <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
                             <input
                                 type='number'
                                 placeholder='Enter verification code..'
-                                className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                                className='text-black font-bold rounded p-2 caret-blue-700 w-[70vw] shadow shadow-black'
                                 name='userOtp'
                                 onChange={handleChange}
                                 required
                             />
                         </div>
 
-                        <div className='mt-1 flex w-[70vw] justify-end items-start text-blue-600 active:text-blue-950'>
-                            <p className="text-[0.9rem] text-right font-semibold">Resend</p>
+                        <div className='mt-1 flex w-[70vw] justify-end items-start '>
+                            <p className="text-[0.9rem] text-right font-semibold text-blue-600 active:text-blue-950">Resend</p>
                         </div>
 
                     </div>
 
                 }
 
-                <button type='submit' className='mt-6 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-32 h-10 flex justify-center items-center'
+                <button type='submit' className='mt-6 mb-5 text-lg bg-black text-white py-1 px-4 rounded active:bg-slate-600 w-32 h-10 flex justify-center items-center'
                 >
                     {!loading ?
                         isOtpSent ? "VERIFY" : "SIGN UP"
