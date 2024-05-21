@@ -8,7 +8,7 @@ import { useSelector } from "react-redux"
 const Navbar = () => {
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const { isUserLoggedIn } = useSelector(state => state.authReducer)
-    const { image } = useSelector(state => state.userDetailsReducer)
+    const { image, imageString } = useSelector(state => state.userDetailsReducer)
     const navigate = useNavigate()
 
     const openSidebar = () => {
@@ -55,7 +55,7 @@ const Navbar = () => {
                 }}>
                     <img
                         className='w-[30px] h-[30px]'
-                        src={image === "" ? "/images/dummy-user.png" : `${process.env.REACT_APP_BASE_URL}/images/${image}`}
+                        src={imageString ? imageString : !image ? "/images/dummy-user.png" : `${process.env.REACT_APP_BASE_URL}/images/${image}`}
                         alt="user-image" />
                 </button>
             </div>

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const Feedback = ({ message, teacherName, studentId, studentName, stars, id, likes, isAutoLoginLoading, teacherId }) => {
-    const { _id } = useSelector(state => state.userDetailsReducer)
+    const { _id, imageString } = useSelector(state => state.userDetailsReducer)
     const { token, isUserLoggedIn } = useSelector(state => state.authReducer)
     const [liked, setLiked] = useState(false)
     const [likedList, setLikedList] = useState([...likes])
@@ -37,6 +37,7 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
             setLiked(true)
         }
 
+
         if (!isUserLoggedIn) {
             setLiked(false)
         }
@@ -58,7 +59,16 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
 
                     <div className='flex justify-start items-center gap-1'>
                         <div className='w-[22px] h-[22px] flex justify-center items-center aspect-square'>
-                            <img src={studentImage ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}` : "/images/dummy-user.png"} alt="user-image" className='w-[20px] object-cover  h-[20px] rounded-[50%]' />
+                            <img src={
+                                _id === studentId
+                                    ? (imageString
+                                        ? imageString
+                                        : studentImage
+                                            ? `${process.env.REACT_APP_BASE_URL}/images/${studentImage}`
+                                            : "/images/dummy-user.png"
+                                    )
+                                    : "/images/dummy-user.png"
+                            } alt="user-image" className='w-[20px] object-cover  h-[20px] rounded-[50%]' />
                         </div>
                         <p className='font-bold text-[15px] w-[80%] overflow-x-hidden text-ellipsis whitespace-nowrap'>{studentName}</p>
                     </div>

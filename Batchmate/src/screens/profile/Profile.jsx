@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -13,17 +13,14 @@ import { RotatingLines } from "react-loader-spinner"
 import { IoArrowBack } from "react-icons/io5";
 import './Profile.css';
 
-
-
 const Profile = () => {
     const { isUserLoggedIn, token } = useSelector(state => state.authReducer);
-    const { image, name, email, rollNo, feedbacks, _id } = useSelector(state => state.userDetailsReducer);
+    const { image, name, email, rollNo, feedbacks, _id, imageString } = useSelector(state => state.userDetailsReducer);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [file, setFile] = useState(null)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [data, setData] = useState({ name: "", image: "" });
+    const [newName, setNewName] = useState(null);
 
     const getTheUserData = async () => {
         const resp = await fetch(`${process.env.REACT_APP_BASE_URL}/get-user-info`, {
@@ -42,74 +39,82 @@ const Profile = () => {
     };
 
     const handleChange = e => {
-        setData({ ...data, [e.target.name]: e.target.value })
+        setNewName(e.target.value);
     }
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]); // Set the selected file to state
-        const image = URL.createObjectURL(e.target.files[0]);
-        setData({ ...data, image })
+    const readFileAsUrl = async (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
     };
 
+    const handleFileChange = async (e) => {
+        setLoading(true);
+        const file = e.target.files[0];
+        const fileExtension = file.name.split('.').pop();
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        if (!allowedExtensions.includes(fileExtension)) {
+            toast.error("Invalid file format. Please upload a valid image file.");
+            setLoading(false);
+            return;
+        }
+
+        const imageUrl = await uploadImage(file);
+        const base64String = await readFileAsUrl(file);
+        if (imageUrl) {
+            dispatch({
+                type: 'updateImage',
+                image: imageUrl,
+                imageString: base64String
+            });
+            setLoading(false);
+        }
+    };
 
     const handleUpdateProfile = async () => {
-        setLoading(true)
+        setLoading(true);
 
         try {
-
-            if (data.name !== name) {
-                await fetch(`${process.env.REACT_APP_BASE_URL}/update-user-info`, {
+            if (newName !== name) {
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/update-user-info`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
                     },
-                    body: JSON.stringify({ name: data.name })
-                })
-                    .then(res => res.json())
-                    .then(result => {
+                    body: JSON.stringify({ name: newName })
+                });
 
-                        if (result.message === "Profile updated successfully.") {
-                            dispatch({
-                                type: 'updateName',
-                                name: data.name
-                            })
-                            if (file !== null) {
-                                uploadImage(file)
-                            } else {
-                                toast.success("Profile updated successfully.")
-                            }
-                        } else {
-                            if (file !== null) {
-                                uploadImage(file)
-                            } else {
-                                toast.error("Error updating profile. Please try again.")
-                            }
-                        }
-                        setLoading(false)
-                        setEditMode(false)
+                const result = await response.json();
 
-                    })
-            } else {
-                if (file !== null) {
-                    uploadImage(file)
+                if (result.message === "Profile updated successfully.") {
+                    dispatch({
+                        type: 'updateName',
+                        name: newName
+                    });
+                    toast.success("Profile updated successfully.");
+                    setEditMode(false);
+                } else {
+                    toast.error("Error updating profile. Please try again.");
                 }
             }
-            setLoading(false)
-            setEditMode(false)
-
         } catch (error) {
-            setEditMode(false)
-            setLoading(false)
+            toast.error("Error updating profile. Please try again.");
             console.log(error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const uploadImage = async (file) => {
-        const formData = new FormData(); // Create a new FormData object
-        formData.append("image", file); // Append the file to FormData with key "image"
+        const formData = new FormData();
+        formData.append("image", file);
         try {
-            // Send a POST request to localhost:8080/save with the form data using fetch
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/save-image`, {
                 method: "POST",
                 headers: {
@@ -117,32 +122,26 @@ const Profile = () => {
                 },
                 body: formData
             });
-            const result = await response.json(); // Parse the response JSON
+            const result = await response.json();
             if (result.message === "Image uploaded successfully.") {
-                const imageExtension = file.name.split('.').pop();
-                dispatch({
-                    type: 'updateImage',
-                    image: `${_id}.${imageExtension}`
-                })
-                toast.success("Profile updated successfully. Restart app if image is not updated.")
+                toast.success("Image uploaded successfully.");
+                return `${_id}.${file.name.split('.').pop()}`;
             } else {
-                toast.error("Error uploading image. Please try again.")
+                toast.error("Error uploading image. Please try again.");
+                return null;
             }
-            setLoading(false)
-            setEditMode(false)
         } catch (error) {
-            setLoading(false)
-            toast.error("Error uploading image. Please try again.")
-            console.error("Error:", error); // Log any errors that occur
+            toast.error("Error uploading image. Please try again.");
+            console.error("Error:", error);
+            return null;
         }
-
-    }
+    };
 
     useEffect(() => {
         if (!isUserLoggedIn) {
             navigate("/");
         } else {
-            setData({ name, image })
+            setNewName(name);
         }
         if (name === null || email === null || rollNo === null || image === null) {
             getTheUserData();
@@ -154,20 +153,16 @@ const Profile = () => {
             <Navbar />
             {editMode ?
                 <>
-
                     <button onClick={() => setEditMode(false)} className="absolute top-16 left-3">
                         <IoArrowBack size={30} color='black' />
                     </button>
 
                     <div className='h-fit w-screen mt-[6vh]'>
-
                         <h1 className='w-full text-center text-3xl font-bold mt-4 '>Edit Profile</h1>
-
                         <div className='flex flex-col gap-4 justify-start items-center mt-5'>
-
-                            <div className='img-wrapper'>
-                                <img src={data?.image === "" ? "/images/dummy-user.png" : data.image !== image ? data.image : `${process.env.REACT_APP_BASE_URL}/images/${data?.image}`} alt="profile picture" />
-                                <div className='input-wrapper'>
+                            <div className='img-wrapper overflow-hidden'>
+                                <img src={imageString ? imageString : !image ? "/images/dummy-user.png" : `${process.env.REACT_APP_BASE_URL}/images/${image}`} alt="profile picture" />
+                                <div className='input-wrapper overflow-hidden'>
                                     <input type="file" name="profile-pic" id="profile-pic" onChange={handleFileChange} />
                                     <RiImageEditFill size={40} color='white' fill='white' />
                                 </div>
@@ -176,25 +171,27 @@ const Profile = () => {
                             <input
                                 type="text"
                                 name="name"
-                                value={data?.name}
+                                value={newName}
                                 placeholder="Name"
-                                className='w-[70%] h-fit rounded-md outline-none border border-black p-1 font-medium text-2xl text-center' onChange={handleChange} />
+                                className='w-[70%] h-fit rounded-md outline-none border border-black p-1 font-medium text-2xl text-center'
+                                onChange={handleChange}
+                            />
 
-                            <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' onClick={!loading ? handleUpdateProfile : () => toast.info("Please wait...")} >
+                            <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center'
+                                onClick={!loading ? handleUpdateProfile : () => toast.info("Please wait...")} >
                                 {!loading ? "UPDATE" : <RotatingLines height="30" width="30" strokeColor='white' />}
                             </button>
                         </div>
-
                     </div>
                 </>
                 :
                 <>
                     <div className='h-fit w-screen my-4 pl-3 flex flex-row justify-around items-center mt-[6.5vh]'>
                         <div className='flex flex-col w-[30vw] relative items-center justify-center rounded-full'>
-                            <img src={image !== "" ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-[30vw] overflow-hidden object-cover w-[30vw] rounded-[50%] bg-none`} alt={image !== "" ? image : "/images/dummy-user.png"} />
+                            <img src={imageString ? imageString : image ? `${process.env.REACT_APP_BASE_URL}/images/${image}` : "/images/dummy-user.png"} className={`h-[30vw] overflow-hidden object-cover w-[30vw] rounded-[50%] bg-none`} alt={image !== "" ? image : "/images/dummy-user.png"} />
                         </div>
                         <div className='text-center w-[70vw] px-10 z-1'>
-                            <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={data?.name || ""} placeholder='Your name' readOnly />
+                            <textarea className={`text-3xl font-extrabold h-fit overflow-hidden line-clamp-2 w-[55vw] rounded-xl p-2 outline-none`} type='text' value={newName || ""} placeholder='Your name' readOnly />
                             <button className='-rotate-6 mb-4 -mt-4 h-fit shadow-md bg-gray-200  *:text-black' onClick={() => navigate('/feedbacks')}>
                                 <h3 className='text-xl font-bold '>🔥 {`{${feedbacks.length || 0}}`} Reviews</h3>
                             </button>

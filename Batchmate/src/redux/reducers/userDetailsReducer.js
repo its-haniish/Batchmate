@@ -6,7 +6,8 @@ const initialState = {
     name: null,
     email: null,
     rollNo: null,
-    image: "",
+    image: null,
+    imageString: null,
     feedbacks: [],
     liked: []
 };
@@ -27,6 +28,7 @@ export const userDetailsReducer = createReducer(initialState, (builder) => {
         })
         .addCase('updateImage', (state, action) => {
             state.image = action.image;
+            state.imageString = action.imageString;
         })
         .addCase('deleteUserData', (state) => {
             state._id = null;
@@ -36,5 +38,6 @@ export const userDetailsReducer = createReducer(initialState, (builder) => {
             state.rollNo = null;
             state.feedbacks = [];
             state.liked = [];
+            state.imageString = null;
         })
 });
