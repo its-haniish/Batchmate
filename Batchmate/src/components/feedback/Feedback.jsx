@@ -116,7 +116,7 @@ const Feedback = ({ message, teacherName, studentId, studentName, stars, id, lik
 
 export const FeedbackLoader = () => {
     return (
-        <section className='bg-gray-100 shadow w-[68vw] mx-2 h-[100%] rounded-lg flex justify-start items-center flex-shrink-0 animate-pulse'>
+        <section className='bg-gray-100 shadow w-[90%] mx-2 h-[22vh] rounded-lg flex justify-start items-center flex-shrink-0 animate-pulse'>
             <div className='w-full h-full py-[2px] px-2 flex flex-col justify-start gap-[1px] items-center'>
 
                 {/* feedback sender details */}
