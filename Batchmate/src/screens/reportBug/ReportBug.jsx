@@ -62,12 +62,14 @@ const ReportBug = () => {
                     placeholder='Name'
                     name='name' onChange={handleChange} readOnly={loading} value={formData.name}
                     className='border shadow-md w-3/4 p-1 text-xl text-black rounded text-center outline-none'
+                    required
                 />
 
                 <input type="email"
                     placeholder='example@email.com'
                     name='email' onChange={handleChange} readOnly={loading} value={formData.email}
                     className='border shadow-md w-3/4 p-1 text-xl text-black rounded text-center outline-none'
+                    required
                 />
 
                 <textarea
@@ -75,6 +77,7 @@ const ReportBug = () => {
                     name='message' onChange={handleChange} readOnly={loading} value={formData.message}
                     className='border shadow-md h-[32vh] w-3/4 p-1 text-xl text-black rounded text-center outline-none'
                     style={{ resize: "none" }}
+                    required
                 ></textarea>
 
                 <button className='mt-5 bg-black text-white text-lg py-1 px-4 rounded active:bg-slate-600 w-28 h-10 flex justify-center items-center' type='submit' >
