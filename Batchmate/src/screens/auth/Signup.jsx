@@ -255,11 +255,11 @@ const Signup = () => {
                 {/* password input wrapper */}
                 <div className='mt-6 flex-col justify-center items-center'>
 
-                    <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                    <div className='w-[74vw] h-fit flex justify-center items-center relative'>
                         <input
                             type={showPass ? "text" : "password"}
                             placeholder='**password**'
-                            className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                            className='text-black h-fit my-1 font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                             name='password'
                             onChange={handleChange}
                             required
@@ -278,11 +278,11 @@ const Signup = () => {
                 {/* confirm password input wrapper */}
                 <div className='mt-6 flex-col justify-center items-center'>
 
-                    <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                    <div className='w-[74vw] h-fit flex justify-center items-center relative'>
                         <input
                             type={showCurrPass ? "text" : "password"}
                             placeholder='**confirm password**'
-                            className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                            className='text-black h-fit my-1 font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                             name='cpassword'
                             onChange={handleChange}
                             required
@@ -297,7 +297,7 @@ const Signup = () => {
 
                 </div>
 
-                <div className='mt-1 flex w-[70vw] justify-between items-start text-blue-600 active:text-blue-950'>
+                <div className='mt-2 h-fit flex w-[70vw] justify-between items-start text-blue-600 active:text-blue-950'>
                     <NavLink to="/login" className="text-[0.9rem] font-semibold">Already have an account?</NavLink>
                 </div>
 
@@ -305,15 +305,16 @@ const Signup = () => {
                 {/* code input wrapper */}
                 {
                     isOtpSent &&
-                    <div className='mt-6 flex-col justify-center items-center'>
+                    <div className='mt-6 flex-col justify-center items-center h-fit'>
                         <p
                             className=' rounded text-sm text-red-500 w-[70vw] h-fit text-wrap text-center mb-3'
                         >Verification code is sent to your mail. Dont't forget to check the spam folder.</p>
-                        <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+
+                        <div className='w-[74vw] h-[10vh] flex justify-center items-center relative'>
                             <input
                                 type='number'
                                 placeholder='Enter verification code..'
-                                className='text-black font-bold rounded p-2 caret-blue-700 w-[70vw] shadow shadow-black'
+                                className='text-black h-fit font-bold rounded p-2 caret-blue-700 w-[70vw] shadow shadow-black'
                                 name='userOtp'
                                 onChange={handleChange}
                                 required

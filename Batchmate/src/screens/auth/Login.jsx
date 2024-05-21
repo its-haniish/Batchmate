@@ -75,28 +75,33 @@ const Login = () => {
                 <input
                     type="email"
                     placeholder='xyz@email.com'
-                    className='mt-24 text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                    className='mt-24 h-fit text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                     name='email'
                     onChange={handleChange}
                 />
 
-                {/* password inout wrapper */}
-                <div className='mt-10 flex-col justify-center items-center'>
 
-                    <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                {/* password input wrapper */}
+                <div className='mt-6 flex-col justify-center items-center'>
+
+                    <div className='w-[74vw] h-fit flex justify-center items-center relative'>
                         <input
                             type={showPass ? "text" : "password"}
                             placeholder='**password**'
-                            className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                            className='text-black h-fit my-1 font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                             name='password'
                             onChange={handleChange}
+                            required
+                            readOnly={loading}
+
                         />
-                        <div className='absolute right-4' onClick={() => { setShowPass(!showPass) }}>
+                        <button className='absolute top-0 right-4 bottom-0' type="button" onClick={() => { setShowPass(!showPass) }}>
                             {
                                 showPass ? <FaEye /> : <FaEyeSlash />
                             }
-                        </div>
+                        </button>
                     </div>
+
                 </div>
 
                 <div className='mt-1 flex w-[70vw] justify-between items-start text-blue-600 active:text-blue-950'>
