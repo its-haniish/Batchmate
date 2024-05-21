@@ -222,7 +222,7 @@ const Signup = () => {
                 />
 
                 <div
-                    className={`mt-6 h-[27vh] text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black`}>
+                    className={`mt-6 h-[25vh] overflow-hidden text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black`}>
 
                     <label htmlFor="rollNo" className='w-full text-left'>
                         Select your ID card:

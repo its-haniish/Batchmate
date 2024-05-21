@@ -99,7 +99,7 @@ const ForgetPass = () => {
                 <IoArrowBack size={30} color='black' />
             </button>
 
-            <form onSubmit={loading ? e => e.preventDefault() : isOtpSent ? handleChangePass : handleSendOtp} className='w-screen h-screen flex flex-col justify-start items-center'>
+            <form onSubmit={loading ? e => e.preventDefault() : isOtpSent ? handleChangePass : handleSendOtp} className='w-screen h-fit flex flex-col justify-start items-center'>
                 <h1 className='mt-16 text-5xl font-["Rubik_Scribble"] font-normal not-italic text-center text-red-500 ' style={{ textShadow: "0px 0px 5px black" }}  >RESET PASSWORD</h1>
                 {/* input email */}
 
@@ -126,11 +126,11 @@ const ForgetPass = () => {
 
                             <div className='mt-4 flex-col justify-center items-center'>
 
-                                <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                                <div className='w-[74vw] h-[7vh] flex justify-center items-center relative'>
                                     <input
                                         type={showPass ? "text" : "password"}
                                         placeholder='**password**'
-                                        className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                                        className='text-black h-fit font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                                         name='password'
                                         readOnly={loading}
                                         required
@@ -146,11 +146,11 @@ const ForgetPass = () => {
 
                             <div className='mt-4 flex-col justify-center items-center'>
 
-                                <div className='w-[74vw] h-[6.6vh] flex justify-center items-center relative'>
+                                <div className='w-[74vw] h-[7vh] flex justify-center items-center relative'>
                                     <input
                                         type={showCPass ? "text" : "password"}
                                         placeholder='**confirm password**'
-                                        className='text-black font-bold rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
+                                        className='text-black font-bold h-fit rounded p-2 text-l caret-blue-700 w-[70vw] shadow shadow-black'
                                         name='cpassword'
                                         required
                                         onChange={handleChange}
