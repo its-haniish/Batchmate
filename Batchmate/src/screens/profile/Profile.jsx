@@ -244,6 +244,9 @@ const Profile = () => {
                                         dispatch({
                                             type: "logoutUser"
                                         });
+                                        dispatch({
+                                            type: "deleteUserData"
+                                        });
                                         removeCookie("batchmate");
                                         console.log("Logging out user...");
                                         return navigate("/");
