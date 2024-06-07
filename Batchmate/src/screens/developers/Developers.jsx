@@ -11,7 +11,6 @@ const Developers = () => {
                 <DevelopersData name="HANISH" role="Developer" insta="its_haniish" linkedin="its-hanish" twitter="its_haniish" />
                 <DevelopersData name="NAMAN" role="Developer" insta="pankha.hu" linkedin="programmerxd" twitter="dotpxd" />
                 <DevelopersData name="JASIKA" role="Designer" insta="its_jasika72" />
-                <DevelopersData name="HEMLATA" role="Designer" insta="sigma_girl_100000001" />
             </div>
         </>
     );
